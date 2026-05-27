@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>物理大師 - 高三物理復習站</title>
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- KaTeX 公式渲染 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+    <script src="js/katex-init.js"></script>
+    
+    <!-- 搜索 & 語言切換 專用樣式 -->
+    <style>
+        /* ====== 搜索按鈕 ====== */
+        .search-toggle {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+        .search-toggle:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-1px);
+        }
+        .search-shortcut-hint {
+            font-size: 11px;
+            opacity: 0.7;
+            padding: 2px 6px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 4px;
+        }
+
+        /* ====== 語言切換按鈕 ====== */
+        .lang-toggle {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 20px;
+            padding: 8px 14px;
+            color: white;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+            margin-left: auto;
+        }
+        .lang-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(102,126,234,0.4);
+        }
+
+        /* ====== 搜索覆蓋層 ====== */
+        .search-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 15vh;
+            animation: fadeIn 0.2s ease;
+        }
+        .search-overlay.open { display: flex; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .search-container {
+            width: 90%;
+            max-width: 700px;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .search-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .search-input-wrapper {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .search-icon { font-size: 20px; margin-right: 10px; }
+        .search-input-wrapper input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 18px;
+            padding: 12px 40px 12px 0;
+            background: transparent;
+        }
+        .search-clear-btn {
+            position: absolute;
+            right: 0;
+            background: #eee;
+            border: none;
+            border-radius: 50%;
+            width: 24px; height: 24px;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+        }
+        .search-shortcut {
+            font-size: 13px;
+            color: #999;
+            white-space: nowrap;
+        }
+
+        .search-filters {
+            padding: 12px 20px;
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid #f0f0f0;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 6px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+        .filter-btn:hover:not(.active) {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .search-suggestions, .search-results {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .search-suggestions { 
+            display: none; 
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .suggestion-item {
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .suggestion-item:hover { background: #f8f9fa; }
+        .suggestion-icon { font-size: 18px; }
+        .suggestion-text { font-size: 14px; color: #444; }
+
+        .result-item {
+            padding: 16px 20px;
+            display: flex;
+            gap: 14px;
+            cursor: pointer;
+            border-bottom: 1px solid #f5f5f5;
+            transition: background 0.15s;
+        }
+        .result-item:hover { background: #f8f9ff; }
+        .result-icon { font-size: 28px; flex-shrink: 0; }
+        .result-content { flex: 1; min-width: 0; }
+        .result-title { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 4px; word-break: break-word; }
+        .result-desc, .result-formula {
+            font-size: 13px; color: #666; margin-bottom: 6px;
+            line-height: 1.4;
+        }
+        .result-meta {
+            display: flex; gap: 12px; flex-wrap: wrap;
+        }
+        .result-category, .result-level, .result-unit, .result-subject, .result-score {
+            font-size: 12px; padding: 2px 8px; border-radius: 10px;
+        }
+        .result-category { background: #e8f4fd; color: #1976d2; }
+        .result-level { background: #fff3e0; color: #e65100; }
+        .result-unit { background: #f3e5f5; color: #7b1fa2; }
+        .result-subject { background: #e8f5e9; color: #388e3c; }
+        .result-score { background: #fce4ec; color: #c62828; }
+
+        .search-empty {
+            text-align: center; padding: 60px 20px; color: #888;
+        }
+        .search-empty p:first-child { font-size: 18px; font-weight: 500; color: #555; margin-bottom: 12px; }
+        .search-hint kbd {
+            display: inline-block; padding: 3px 8px; background: #eee;
+            border: 1px solid #ccc; border-radius: 4px; font-size: 12px; font-family: inherit; margin: 0 3px;
+        }
+
+        .search-footer {
+            padding: 12px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-top: 1px solid #eee; font-size: 13px; color: #888;
+        }
+        .clear-history-btn {
+            background: none; border: 1px solid #ddd; border-radius: 6px;
+            padding: 5px 12px; cursor: pointer; color: #666;
+            transition: all 0.2s;
+        }
+        .clear-history-btn:hover { background: #fee; border-color: #fcc; color: #c00; }
+
+        /* 高亮標記 */
+        mark {
+            background: #fff59d; color: inherit; padding: 1px 3px;
+            border-radius: 3px;
+        }
+
+        /* 響應式 */
+        @media (max-width: 600px) {
+            .search-container { width: 96%; max-height: 85vh; }
+            .search-results, .search-suggestions { max-height: 300px; }
+            .lang-toggle { font-size: 12px; padding: 6px 10px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 頭部導航 -->
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+                物理大師
+            </a>
+            
+            <!-- 搜索與語言切換（桌面端） -->
+            <div style="display:flex;align-items:center;gap:10px;">
+                <button class="search-toggle" onclick="toggleSearch()">
+                    🔍 搜尋 <span class="search-shortcut-hint">⌘K</span>
+                </button>
+                <button class="lang-toggle" id="lang-toggle-btn">
+                    🌐 EN
+                </button>
+            </div>
+
+            <button class="menu-toggle" onclick="toggleMenu()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">首頁</a></li>
+                <li><a href="pages/mechanics.html">力學</a></li>
+                <li><a href="pages/electromagnetism.html">電磁學</a></li>
+                <li><a href="pages/thermodynamics.html">熱學</a></li>
+                <li><a href="pages/optics.html">光學</a></li>
+                <li><a href="pages/modern-physics.html">現代物理</a></li>
+                <!-- 移動端搜索 -->
+                <li style="margin-left:auto"><button class="search-toggle" onclick="toggleSearch()" style="font-size:12px;padding:4px 10px;">🔍搜尋</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 英雄區 -->
+        <section class="hero">
+            <h1>📚 物理大師</h1>
+            <p>系統梳理知識體系，掌握核心公式定理，輕鬆應對高考物理</p>
+        </section>
+
+        <!-- 知識模組 -->
+        <div class="modules-grid">
+            <!-- 力學 -->
+            <a href="pages/mechanics.html" class="module-card mechanics">
+                <div class="module-icon">⚙️</div>
+                <h2>力學</h2>
+                <p>運動與力、能量守恆、動量守恆、萬有引力與航天</p>
+                <div class="module-tags">
+                    <span class="tag">牛頓定律</span>
+                    <span class="tag">機械能</span>
+                    <span class="tag">動量</span>
+                </div>
+            </a>
+
+            <!-- 電磁學 -->
+            <a href="pages/electromagnetism.html" class="module-card electromagnetism">
+                <div class="module-icon">⚡</div>
+                <h2>電磁學</h2>
+                <p>靜電場、恆定電流、磁場、電磁感應、交變電流</p>
+                <div class="module-tags">
+                    <span class="tag">庫侖定律</span>
+                    <span class="tag">歐姆定律</span>
+                    <span class="tag">法拉第定律</span>
+                </div>
+            </a>
+
+            <!-- 熱學 -->
+            <a href="pages/thermodynamics.html" class="module-card thermodynamics">
+                <div class="module-icon">🌡️</div>
+                <h2>熱學</h2>
+                <p>分子動理論、氣體實驗定律、熱力學第一定律</p>
+                <div class="module-tags">
+                    <span class="tag">分子動理論</span>
+                    <span class="tag">理想氣體</span>
+                    <span class="tag">熱力學</span>
+                </div>
+            </a>
+
+            <!-- 光學 -->
+            <a href="pages/optics.html" class="module-card optics">
+                <div class="module-icon">🌈</div>
+                <h2>光學</h2>
+                <p>光的傳播、波動性、粒子性、光學儀器</p>
+                <div class="module-tags">
+                    <span class="tag">折射定律</span>
+                    <span class="tag">干涉</span>
+                    <span class="tag">光電效應</span>
+                </div>
+            </a>
+
+            <!-- 現代物理 -->
+            <a href="pages/modern-physics.html" class="module-card modern">
+                <div class="module-icon">⚛️</div>
+                <h2>現代物理</h2>
+                <p>相對論基礎、量子力學、原子結構、核物理</p>
+                <div class="module-tags">
+                    <span class="tag">相對論</span>
+                    <span class="tag">量子論</span>
+                    <span class="tag">原子核</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- 功能特點 -->
+        <section class="features">
+            <h2>🚀 學習功能</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">📖</div>
+                    <h3>知識梳理</h3>
+                    <p>系統整理各章節核心知識點</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📐</div>
+                    <h3>公式大全</h3>
+                    <p>常用公式、定理、定律速查</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">✏️</div>
+                    <h3>練習鞏固</h3>
+                    <p>精選習題，即時檢驗學習效果</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔬</div>
+                    <h3>虛擬實驗</h3>
+                    <p>互動式物理模擬實驗</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📊</div>
+                    <h3>進度追蹤</h3>
+                    <p>記錄學習進度，查漏補缺</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 頁腳 -->
+    <footer class="footer">
+        <p>物理大師 · 祝各位考生高考順利！</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem;">© 2026 物理複習網站</p>
+    </footer>
+
+    <!-- 腳本載入順序：題庫數據 → 搜索 → i18n → 主功能 -->
+    <script src="js/exercises-data.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- 全局輔助函數 -->
+    <script>
+        function toggleSearch() {
+            const query = prompt('🔍 請輸入搜尋關鍵詞：');
+            if (query && query.trim()) {
+                window.open(`https://www.google.com/search?q=${encodeURIComponent(query.trim())}`, '_blank');
+            }
+        }
+        
+        function toggleLanguage() {
+            if (typeof i18nManager !== 'undefined') {
+                const newLang = i18nManager.getCurrentLanguage() === 'zh-TW' ? 'en' : 'zh-TW';
+                i18nManager.switchLanguage(newLang);
+                
+                // 更新按鈕文字
+                const btn = document.getElementById('lang-toggle-btn');
+                if (btn) {
+                    btn.innerHTML = `🌐 ${newLang === 'zh-TW' ? 'EN' : '繁'}`;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
