@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 280">
+  <rect width="500" height="280" fill="#f8fafc"/>
+  
+  <!-- 原子核 -->
+  <circle cx="250" cy="140" r="30" fill="#ef4444"/>
+  
+  <!-- 质子 -->
+  <circle cx="240" cy="130" r="8" fill="#3b82f6"/>
+  <text x="237" y="134" font-size="8" fill="white">+</text>
+  <circle cx="260" cy="135" r="8" fill="#3b82f6"/>
+  <text x="257" y="139" font-size="8" fill="white">+</text>
+  <circle cx="250" cy="150" r="8" fill="#3b82f6"/>
+  <text x="247" y="154" font-size="8" fill="white">+</text>
+  
+  <!-- 中子 -->
+  <circle cx="245" cy="145" r="8" fill="#94a3b8"/>
+  <circle cx="255" cy="130" r="8" fill="#94a3b8"/>
+  <circle cx="240" cy="155" r="8" fill="#94a3b8"/>
+  
+  <text x="250" y="143" font-size="10" font-weight="bold" fill="white">原子核</text>
+  <text x="235" y="185" font-size="12" fill="#1e293b">原子核 (Z质子, N中子)</text>
+  
+  <!-- 电子轨道 -->
+  <ellipse cx="250" cy="140" rx="100" ry="40" fill="none" stroke="#10b981" stroke-width="1.5"/>
+  <ellipse cx="250" cy="140" rx="140" ry="60" fill="none" stroke="#10b981" stroke-width="1.5"/>
+  <ellipse cx="250" cy="140" rx="80" ry="100" fill="none" stroke="#10b981" stroke-width="1.5" transform="rotate(60, 250, 140)"/>
+  <ellipse cx="250" cy="140" rx="80" ry="100" fill="none" stroke="#10b981" stroke-width="1.5" transform="rotate(-60, 250, 140)"/>
+  
+  <!-- 电子 -->
+  <circle cx="150" cy="140" r="6" fill="#10b981"/>
+  <circle cx="350" cy="140" r="6" fill="#10b981"/>
+  <circle cx="250" cy="80" r="6" fill="#10b981"/>
+  <circle cx="170" cy="200" r="6" fill="#10b981"/>
+  <circle cx="330" cy="200" r="6" fill="#10b981"/>
+  
+  <!-- 电子标注 -->
+  <text x="125" y="125" font-size="10" fill="#10b981">e⁻</text>
+  
+  <!-- 玻尔模型说明 -->
+  <rect x="20" y="30" width="150" height="80" fill="#fef3c7" rx="8"/>
+  <text x="30" y="55" font-size="13" font-weight="bold" fill="#1e293b">玻尔模型要点:</text>
+  <text x="30" y="75" font-size="11" fill="#64748b">• 核外电子在</text>
+  <text x="30" y="90" font-size="11" fill="#64748b">  特定轨道运动</text>
+  <text x="30" y="105" font-size="11" fill="#64748b">• 不辐射能量</text>
+  
+  <!-- 能级图 -->
+  <rect x="380" y="30" width="110" height="130" fill="#e0e7ff" rx="8"/>
+  <text x="400" y="50" font-size="13" font-weight="bold" fill="#1e293b">氢原子能级</text>
+  
+  <line x1="390" y1="70" x2="470" y2="70" stroke="#94a3b8" stroke-width="1"/>
+  <text x="400" y="75" font-size="10" fill="#64748b">n=∞</text>
+  <text x="440" y="75" font-size="10" fill="#ef4444">E=0</text>
+  
+  <line x1="390" y1="90" x2="470" y2="90" stroke="#94a3b8" stroke-width="1"/>
+  <text x="400" y="95" font-size="10" fill="#64748b">n=4</text>
+  <text x="440" y="95" font-size="10" fill="#ef4444">-0.85eV</text>
+  
+  <line x1="390" y1="105" x2="470" y2="105" stroke="#94a3b8" stroke-width="1"/>
+  <text x="400" y="110" font-size="10" fill="#64748b">n=3</text>
+  <text x="440" y="110" font-size="10" fill="#ef4444">-1.51eV</text>
+  
+  <line x1="390" y1="120" x2="470" y2="120" stroke="#94a3b8" stroke-width="1"/>
+  <text x="400" y="125" font-size="10" fill="#64748b">n=2</text>
+  <text x="440" y="125" font-size="10" fill="#ef4444">-3.4eV</text>
+  
+  <line x1="390" y1="145" x2="470" y2="145" stroke="#3b82f6" stroke-width="2"/>
+  <text x="400" y="140" font-size="10" fill="#3b82f6">n=1</text>
+  <text x="440" y="140" font-size="10" fill="#3b82f6">-13.6eV</text>
+  
+  <!-- 标题 -->
+  <text x="180" y="265" font-size="16" font-weight="bold" fill="#1e293b">氢原子结构 - 玻尔模型</text>
+</svg>

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 280">
+  <rect width="500" height="280" fill="#f8fafc"/>
+  
+  <!-- 主光轴 -->
+  <line x1="0" y1="140" x2="500" y2="140" stroke="#64748b" stroke-width="2"/>
+  
+  <!-- 透镜 -->
+  <path d="M200,40 Q250,140 200,240" fill="none" stroke="#3b82f6" stroke-width="4"/>
+  <path d="M300,40 Q250,140 300,240" fill="none" stroke="#3b82f6" stroke-width="4"/>
+  
+  <!-- 光心 -->
+  <circle cx="250" cy="140" r="4" fill="#1e293b"/>
+  <text x="260" y="130" font-size="12" fill="#1e293b">光心O</text>
+  
+  <!-- 焦点 -->
+  <circle cx="320" cy="140" r="4" fill="#ef4444"/>
+  <text x="330" y="130" font-size="12" fill="#ef4444">F</text>
+  <text x="320" y="155" font-size="10" fill="#ef4444">焦点</text>
+  
+  <!-- 物点 -->
+  <circle cx="150" cy="80" r="8" fill="#10b981"/>
+  <text x="160" y="75" font-size="12" fill="#10b981">物体</text>
+  
+  <!-- 物距标注 -->
+  <line x1="150" y1="90" x2="250" y2="140" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="190" y="105" font-size="12" fill="#94a3b8">u</text>
+  
+  <!-- 三条特殊光线 -->
+  <!-- 1. 平行主光轴的光线 -->
+  <line x1="150" y1="80" x2="200" y2="80" stroke="#f59e0b" stroke-width="2"/>
+  <line x1="200" y1="80" x2="250" y2="140" stroke="#f59e0b" stroke-width="2"/>
+  <line x1="250" y1="140" x2="320" y2="140" stroke="#f59e0b" stroke-width="2"/>
+  
+  <!-- 2. 经过光心的光线 -->
+  <line x1="150" y1="80" x2="250" y2="140" stroke="#ef4444" stroke-width="2"/>
+  
+  <!-- 3. 经过焦点的光线 -->
+  <line x1="150" y1="80" x2="320" y2="140" stroke="#8b5cf6" stroke-width="2"/>
+  <line x1="320" y1="140" x2="200" y2="200" stroke="#8b5cf6" stroke-width="2"/>
+  
+  <!-- 像点 -->
+  <circle cx="350" cy="200" r="8" fill="#ec4899"/>
+  <text x="360" y="195" font-size="12" fill="#ec4899">像</text>
+  
+  <!-- 像距标注 -->
+  <line x1="250" y1="140" x2="350" y2="200" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="300" y="175" font-size="12" fill="#94a3b8">v</text>
+  
+  <!-- 透镜公式 -->
+  <rect x="350" y="30" width="140" height="90" fill="#e0e7ff" rx="8"/>
+  <text x="360" y="55" font-size="16" font-weight="bold" fill="#1e293b">透镜成像公式</text>
+  <text x="370" y="85" font-size="18" font-weight="bold" fill="#3b82f6">1/u + 1/v = 1/f</text>
+  <text x="360" y="105" font-size="12" fill="#64748b">放大率: m = |v/u| = |h'/h|</text>
+  
+  <!-- 标题 -->
+  <text x="180" y="20" font-size="18" font-weight="bold" fill="#1e293b">凸透镜成像光路图</text>
+</svg>

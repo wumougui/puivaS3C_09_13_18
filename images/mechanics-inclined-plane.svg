@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250">
+  <rect width="400" height="250" fill="#f8fafc"/>
+  
+  <!-- 斜面 -->
+  <polygon points="50,200 350,200 50,80" fill="#e0e7ff" stroke="#3b82f6" stroke-width="2"/>
+  
+  <!-- 物块 -->
+  <rect x="150" y="115" width="50" height="35" fill="#ef4444" rx="4"/>
+  
+  <!-- 重力 G -->
+  <line x1="175" y1="150" x2="175" y2="200" stroke="#1e293b" stroke-width="3"/>
+  <polygon points="175,205 170,192 180,192" fill="#1e293b"/>
+  <text x="180" y="180" font-size="16" font-weight="bold" fill="#1e293b">G</text>
+  
+  <!-- 支持力 N -->
+  <line x1="175" y1="150" x2="175" y2="105" stroke="#10b981" stroke-width="3"/>
+  <polygon points="175,100 170,113 180,113" fill="#10b981"/>
+  <text x="185" y="115" font-size="16" font-weight="bold" fill="#10b981">N</text>
+  
+  <!-- 摩擦力 f -->
+  <line x1="200" y1="132" x2="230" y2="115" stroke="#f59e0b" stroke-width="3"/>
+  <polygon points="235,112 223,112 225,120" fill="#f59e0b"/>
+  <text x="240" y="110" font-size="16" font-weight="bold" fill="#f59e0b">f</text>
+  
+  <!-- 分解示意图 -->
+  <line x1="175" y1="150" x2="225" y2="175" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5,3"/>
+  <line x1="175" y1="150" x2="130" y2="195" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5,3"/>
+  
+  <text x="228" y="185" font-size="14" fill="#64748b">G⊥</text>
+  <text x="100" y="205" font-size="14" fill="#64748b">G∥</text>
+  
+  <!-- 角度标注 -->
+  <text x="70" y="175" font-size="14" fill="#3b82f6">θ</text>
+  <path d="M75,185 Q100,165 125,155" fill="none" stroke="#3b82f6" stroke-width="1.5"/>
+  
+  <!-- 标题 -->
+  <text x="140" y="35" font-size="18" font-weight="bold" fill="#1e293b">斜面上物体受力分析</text>
+  
+  <!-- 公式 -->
+  <text x="280" y="50" font-size="13" fill="#64748b">N = Gcosθ</text>
+  <text x="280" y="70" font-size="13" fill="#64748b">f = μN</text>
+  <text x="280" y="90" font-size="13" fill="#64748b">G∥ = Gsinθ</text>
+</svg>

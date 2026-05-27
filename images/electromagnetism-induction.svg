@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 280">
+  <rect width="450" height="280" fill="#f8fafc"/>
+  
+  <!-- 线圈 -->
+  <ellipse cx="150" cy="140" rx="100" ry="60" fill="none" stroke="#3b82f6" stroke-width="4"/>
+  <ellipse cx="150" cy="140" rx="100" ry="60" fill="none" stroke="#3b82f6" stroke-width="4"/>
+  
+  <!-- 磁铁 -->
+  <rect x="350" y="110" width="40" height="60" fill="#ef4444"/>
+  <text x="362" y="145" font-size="14" font-weight="bold" fill="white">N</text>
+  
+  <!-- 磁铁进入 -->
+  <path d="M390,140 L350,140" stroke="#ef4444" stroke-width="2"/>
+  <polygon points="350,140 358,135 358,145" fill="#ef4444"/>
+  
+  <!-- 感应电流方向 -->
+  <circle cx="150" cy="140" r="20" fill="none" stroke="#10b981" stroke-width="3"/>
+  <path d="M135,140 A15,15 0 0,1 165,140" fill="none" stroke="#10b981" stroke-width="3"/>
+  <polygon points="165,140 158,135 158,145" fill="#10b981"/>
+  <text x="155" y="170" font-size="14" font-weight="bold" fill="#10b981">I感</text>
+  
+  <!-- 楞次定律解释 -->
+  <rect x="20" y="200" width="250" height="70" fill="#e0e7ff" rx="8"/>
+  <text x="30" y="225" font-size="14" font-weight="bold" fill="#1e293b">楞次定律:</text>
+  <text x="30" y="245" font-size="12" fill="#3b82f6">感应电流的磁场</text>
+  <text x="30" y="262" font-size="12" fill="#3b82f6">阻碍原磁通量变化</text>
+  
+  <!-- 右手定则 -->
+  <rect x="290" y="200" width="150" height="70" fill="#fef3c7" rx="8"/>
+  <text x="300" y="225" font-size="14" font-weight="bold" fill="#1e293b">右手定则:</text>
+  <text x="300" y="245" font-size="12" fill="#3b82f6">拇指→运动方向</text>
+  <text x="300" y="262" font-size="12" fill="#3b82f6">四指→电流方向</text>
+  
+  <!-- 标题 -->
+  <text x="150" y="30" font-size="18" font-weight="bold" fill="#1e293b">电磁感应 - 楞次定律</text>
+  
+  <!-- 法拉第定律公式 -->
+  <text x="130" y="55" font-size="14" fill="#3b82f6">E = nΔΦ/Δt</text>
+</svg>

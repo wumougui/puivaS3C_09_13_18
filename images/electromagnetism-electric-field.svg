@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 280">
+  <rect width="450" height="280" fill="#f8fafc"/>
+  
+  <!-- 正电荷 -->
+  <circle cx="100" cy="140" r="25" fill="#ef4444"/>
+  <text x="93" y="148" font-size="20" font-weight="bold" fill="white">+</text>
+  <text x="85" y="185" font-size="14" fill="#ef4444">+Q</text>
+  
+  <!-- 电场线 -->
+  <path d="M130,140 Q200,80 300,100" fill="none" stroke="#3b82f6" stroke-width="2"/>
+  <path d="M130,140 Q200,140 300,140" fill="none" stroke="#3b82f6" stroke-width="2"/>
+  <path d="M130,140 Q200,200 300,180" fill="none" stroke="#3b82f6" stroke-width="2"/>
+  
+  <!-- 电场线箭头 -->
+  <polygon points="300,98 290,103 295,108" fill="#3b82f6"/>
+  <polygon points="300,140 290,135 290,145" fill="#3b82f6"/>
+  <polygon points="300,178 290,173 295,183" fill="#3b82f6"/>
+  
+  <!-- 测试电荷 -->
+  <circle cx="300" cy="140" r="15" fill="#10b981"/>
+  <text x="293" y="146" font-size="14" font-weight="bold" fill="white">+q</text>
+  
+  <!-- 力箭头 -->
+  <line x1="315" y1="140" x2="370" y2="140" stroke="#f59e0b" stroke-width="3"/>
+  <polygon points="375,140 362,135 362,145" fill="#f59e0b"/>
+  <text x="380" y="145" font-size="14" font-weight="bold" fill="#f59e0b">F</text>
+  
+  <!-- 等势面 -->
+  <circle cx="100" cy="140" r="60" fill="none" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="5,3"/>
+  <circle cx="100" cy="140" r="90" fill="none" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="200" y="60" font-size="12" fill="#94a3b8">等势面</text>
+  
+  <!-- 标题 -->
+  <text x="150" y="30" font-size="18" font-weight="bold" fill="#1e293b">点电荷电场</text>
+  
+  <!-- 公式区域 -->
+  <rect x="280" y="200" width="160" height="70" fill="#e0e7ff" rx="8"/>
+  <text x="290" y="225" font-size="13" font-weight="bold" fill="#1e293b">库仑定律:</text>
+  <text x="290" y="245" font-size="12" fill="#3b82f6">F = kQq/r²</text>
+  <text x="290" y="260" font-size="13" font-weight="bold" fill="#1e293b">电场强度:</text>
+  <text x="290" y="265" font-size="12" fill="#3b82f6">E = kQ/r²</text>
+</svg>

@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>電磁學 - 物理大師</title>
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- KaTeX 公式渲染 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+    <script src="../js/katex-init.js"></script>
+    <style>
+        .experiment-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .experiment-canvas {
+            margin-top: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        .experiment-results {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+        }
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.75rem;
+        }
+        .result-item {
+            background: white;
+            padding: 0.75rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .result-label {
+            color: #64748b;
+            font-size: 0.8rem;
+            margin-bottom: 0.25rem;
+        }
+        .result-value {
+            color: #1e293b;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .control-group {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+            font-weight: 500;
+        }
+        .control-value {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #e2e8f0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        .exp-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .exp-btn:hover {
+            transform: translateY(-2px);
+        }
+        .exp-btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .exp-btn-secondary {
+            background: #e2e8f0;
+            color: #475569;
+        }
+        .exp-btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        .theory-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            border-left: 4px solid #667eea;
+        }
+        .theory-box h4 {
+            color: #3b82f6;
+            margin-bottom: 0.5rem;
+        }
+        .theory-box p {
+            color: #475569;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+        .refresh-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            transition: all 0.3s;
+        }
+        .refresh-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        .exercise-footer {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <!-- 頭部導航 -->
+    <header class="header">
+        <nav class="nav">
+            <a href="../index.html" class="logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+                物理大師
+            </a>
+            <button class="menu-toggle" onclick="toggleMenu()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="mechanics.html">力學</a></li>
+                <li><a href="electromagnetism.html">電磁學</a></li>
+                <li><a href="thermodynamics.html">熱學</a></li>
+                <li><a href="optics.html">光學</a></li>
+                <li><a href="modern-physics.html">現代物理</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <a href="../index.html" class="back-btn">← 返回首頁</a>
+
+        <!-- 頁面標題 -->
+        <div class="page-header">
+            <h1>⚡ 電磁學</h1>
+            <p>電場、電流、磁場、電磁感應</p>
+        </div>
+
+        <!-- 知識要點 -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">📖</span>
+                知識要點
+            </h2>
+            
+            <!-- 示意圖展示 -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                <div style="background: #f8fafc; border-radius: 12px; padding: 1rem; text-align: center; border: 2px solid #fee2e2;">
+                    <h4 style="color: #ef4444; margin-bottom: 0.75rem;">⚡ 點電荷電場</h4>
+                    <img src="../images/electromagnetism-electric-field.svg" alt="電場" style="width: 100%; max-width: 430px; height: auto; border-radius: 8px;">
+                </div>
+                <div style="background: #f8fafc; border-radius: 12px; padding: 1rem; text-align: center; border: 2px solid #fef3c7;">
+                    <h4 style="color: #f59e0b; margin-bottom: 0.75rem;">🧲 安培力</h4>
+                    <img src="../images/electromagnetism-magnetic-force.svg" alt="安培力" style="width: 100%; max-width: 430px; height: auto; border-radius: 8px;">
+                </div>
+                <div style="background: #f8fafc; border-radius: 12px; padding: 1rem; text-align: center; border: 2px solid #d1fae5;">
+                    <h4 style="color: #10b981; margin-bottom: 0.75rem;">⚡ 電磁感應</h4>
+                    <img src="../images/electromagnetism-induction.svg" alt="電磁感應" style="width: 100%; max-width: 430px; height: auto; border-radius: 8px;">
+                </div>
+            </div>
+            
+            <ul class="knowledge-list">
+                <li><strong>電場：</strong>電場強度、電力線、電勢、帶電粒子在電場中的運動</li>
+                <li><strong>電路：</strong>歐姆定律、串聯電路、并聯電路、電功率、焦耳定律</li>
+                <li><strong>磁場：</strong>磁感應強度、磁力線、安培力、洛倫茲力</li>
+                <li><strong>電磁感應：</strong>法拉第電磁感應定律、楞次定律、自感、互感</li>
+                <li><strong>交流電：</strong>正弦交流電、瞬時值、有效值、變壓器原理</li>
+                <li><strong>電磁波：</strong>電磁振蕩、電磁波的產生與傳播、電磁波譜</li>
+            </ul>
+        </section>
+
+        <!-- 🔬 互動實驗區 -->
+        <section class="content-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; padding: 2rem;">
+            <h2 class="section-title" style="background: white; border-radius: 12px; padding: 1rem;">
+                <span class="section-icon">🔬</span>
+                互動實驗室
+            </h2>
+            
+            <!-- 實驗1：歐姆定律實驗 -->
+            <div class="experiment-card">
+                <h3 style="color: #3b82f6; margin-bottom: 0.5rem;">🧪 實驗一：歐姆定律實驗</h3>
+                <p style="color: #64748b; margin-bottom: 1rem;">調整電壓和電阻，觀察電流的變化！</p>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>電壓 V</span>
+                        <span class="control-value" id="voltageValue">12 V</span>
+                    </div>
+                    <input type="range" id="voltageSlider" min="0" max="24" value="12" oninput="updateOhmsLaw()">
+                </div>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>電阻 R</span>
+                        <span class="control-value" id="resistanceValue">10 Ω</span>
+                    </div>
+                    <input type="range" id="resistanceSlider" min="1" max="100" value="10" oninput="updateOhmsLaw()">
+                </div>
+                
+                <div class="btn-group">
+                    <button class="exp-btn exp-btn-primary" onclick="startOhmsLaw()">
+                        ▶ 開始實驗
+                    </button>
+                    <button class="exp-btn exp-btn-secondary" onclick="resetOhmsLaw()">
+                        🔄 重置
+                    </button>
+                </div>
+                
+                <div class="experiment-results" id="ohmsResult" style="background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);">
+                    <h4 style="color: #3b82f6; margin-bottom: 0.75rem;">⚡ 實驗結果</h4>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <div class="result-label">電壓 (V)</div>
+                            <div class="result-value" id="ohmsV">12 V</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">電阻 (R)</div>
+                            <div class="result-value" id="ohmsR">10 Ω</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">電流 (I)</div>
+                            <div class="result-value" id="ohmsI">1.20 A</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">功率 (P)</div>
+                            <div class="result-value" id="ohmsP">14.40 W</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="theory-box">
+                    <h4>💡 實驗原理</h4>
+                    <p>歐姆定律：$I = \frac{V}{R}$。電流與電壓成正比，與電阻成反比。電功率 $P = UI = I^2R = \frac{V^2}{R}$</p>
+                </div>
+            </div>
+
+            <!-- 實驗2：庫侖定律實驗 -->
+            <div class="experiment-card">
+                <h3 style="color: #ef4444; margin-bottom: 0.5rem;">🧪 實驗二：庫侖定律實驗</h3>
+                <p style="color: #64748b; margin-bottom: 1rem;">調整電荷量和距離，觀察靜電力的大小！</p>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>電荷量 Q₁</span>
+                        <span class="control-value" id="q1Value">2 μC</span>
+                    </div>
+                    <input type="range" id="q1Slider" min="1" max="10" value="2" oninput="updateCoulombsLaw()">
+                </div>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>電荷量 Q₂</span>
+                        <span class="control-value" id="q2Value">3 μC</span>
+                    </div>
+                    <input type="range" id="q2Slider" min="1" max="10" value="3" oninput="updateCoulombsLaw()">
+                </div>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>距離 r</span>
+                        <span class="control-value" id="distValue">0.1 m</span>
+                    </div>
+                    <input type="range" id="distSlider" min="5" max="100" value="10" oninput="updateCoulombsLaw()">
+                </div>
+                
+                <div class="btn-group">
+                    <button class="exp-btn exp-btn-primary" onclick="startCoulombsLaw()" style="background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);">
+                        ▶ 開始實驗
+                    </button>
+                    <button class="exp-btn exp-btn-secondary" onclick="resetCoulombsLaw()">
+                        🔄 重置
+                    </button>
+                </div>
+                
+                <div class="experiment-canvas">
+                    <canvas id="coulombCanvas" width="800" height="250"></canvas>
+                </div>
+                
+                <div class="experiment-results" style="background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);">
+                    <h4 style="color: #ec4899; margin-bottom: 0.75rem;">⚡ 電力分析</h4>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <div class="result-label">Q₁</div>
+                            <div class="result-value" id="coulombQ1">2 × 10⁻⁶ C</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Q₂</div>
+                            <div class="result-value" id="coulombQ2">3 × 10⁻⁶ C</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">距離 r</div>
+                            <div class="result-value" id="coulombR">0.1 m</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">靜電力 F</div>
+                            <div class="result-value" id="coulombF">5.40 N</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="theory-box">
+                    <h4>💡 實驗原理</h4>
+                    <p>庫侖定律：$F = kQ_1Q_2/r^2$，$k = 9\times10^9$ N·m²/C²。同性電荷相斥，異性電荷相吸。</p>
+                </div>
+            </div>
+
+            <!-- 實驗3：楞次定律實驗 -->
+            <div class="experiment-card">
+                <h3 style="color: #10b981; margin-bottom: 0.5rem;">🧪 實驗三：電磁感應（楞次定律）</h3>
+                <p style="color: #64748b; margin-bottom: 1rem;">調整磁鐵移動速度，觀察感應電流的變化！</p>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>磁鐵強度 B</span>
+                        <span class="control-value" id="magnetValue">1.0 T</span>
+                    </div>
+                    <input type="range" id="magnetSlider" min="0.5" max="2" step="0.1" value="1" oninput="updateInduction()">
+                </div>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>線圈匝數 N</span>
+                        <span class="control-value" id="coilsValue">100 匝</span>
+                    </div>
+                    <input type="range" id="coilsSlider" min="10" max="500" step="10" value="100" oninput="updateInduction()">
+                </div>
+                
+                <div class="btn-group">
+                    <button class="exp-btn exp-btn-success" onclick="startInduction()">
+                        ▶ 開始實驗
+                    </button>
+                    <button class="exp-btn exp-btn-secondary" onclick="pauseInduction()">
+                        ⏸ 暫停
+                    </button>
+                    <button class="exp-btn exp-btn-secondary" onclick="resetInduction()">
+                        🔄 重置
+                    </button>
+                </div>
+                
+                <div class="experiment-canvas">
+                    <canvas id="inductionCanvas" width="800" height="280"></canvas>
+                </div>
+                
+                <div class="experiment-results" style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);">
+                    <h4 style="color: #059669; margin-bottom: 0.75rem;">⚡ 感應分析</h4>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <div class="result-label">磁通量 Φ</div>
+                            <div class="result-value" id="inductionPhi">0 Wb</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">磁通量變化率</div>
+                            <div class="result-value" id="inductionDPhi">0 Wb/s</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">感應電動勢 ε</div>
+                            <div class="result-value" id="inductionEpsilon">0 V</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">電流方向</div>
+                            <div class="result-value" id="inductionDir">-</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="theory-box">
+                    <h4>💡 實驗原理</h4>
+                    <p>法拉第電磁感應定律：$\varepsilon = -N\cdot \frac{d\Phi}{dt}$。楞次定律：感應電流的方向總是反抗引起感應電流的磁通量變化。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 核心公式 -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">📐</span>
+                核心公式
+            </h2>
+            <div class="formula-grid">
+                <div class="formula-card">
+                    <h3>庫侖定律</h3>
+                    <div class="formula">$F = kQ_1Q_2/r^2$</div>
+                    <p class="formula-desc">真空中兩個點電荷間的相互作用力</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>電場強度</h3>
+                    <div class="formula">$E = \frac{F}{q} = \frac{kQ}{r^2}$</div>
+                    <div class="formula">$E = U/d$</div>
+                    <p class="formula-desc">描述電場強弱的物理量</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>歐姆定律</h3>
+                    <div class="formula">$I = U/R$</div>
+                    <p class="formula-desc">電流與電壓成正比，與電阻成反比</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>電功率</h3>
+                    <div class="formula">$P = UI = I^2R = \frac{U^2}{R}$</div>
+                    <p class="formula-desc">描述電流做功快慢的物理量</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>磁感應強度</h3>
+                    <div class="formula">$B = F/IL$（左手定則）</div>
+                    <p class="formula-desc">描述磁場強弱的物理量</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>洛倫茲力</h3>
+                    <div class="formula">$F = qvB\sin\theta$</div>
+                    <p class="formula-desc">運動電荷在磁場中受到的力</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>法拉第電磁感應定律</h3>
+                    <div class="formula">$\varepsilon = -N\cdot d\Phi/dt$</div>
+                    <p class="formula-desc">磁通量變化產生感應電動勢</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>交流電有效值</h3>
+                    <div class="formula">$I_{有效} = \frac{I_{最大值}}{\sqrt{2}}$</div>
+                    <div class="formula">$U_{有效} = \frac{U_{最大值}}{\sqrt{2}}$</div>
+                    <p class="formula-desc">交流電的等效直流值</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>變壓器</h3>
+                    <div class="formula">$U_1/U_2 = n_1/n_2$</div>
+                    <p class="formula-desc">原副線圈電壓比等於匝數比</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>電場能量</h3>
+                    <div class="formula">$W = \frac{1}{2}QU = \frac{1}{2}CU^2$</div>
+                    <p class="formula-desc">電容器儲存的能量</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>電阻串聯</h3>
+                    <div class="formula">$R_{总} = R_1 + R_2 + ...$</div>
+                    <p class="formula-desc">總電阻等於各電阻之和</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>電阻并聯</h3>
+                    <div class="formula">$1/R_{总} = 1/R_1 + 1/R_2 + ...$</div>
+                    <p class="formula-desc">總電阻的倒數等於各電阻倒數之和</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 重要定律 -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">⚖️</span>
+                重要定律
+            </h2>
+            <div class="law-card">
+                <h3>庫侖定律</h3>
+                <p>真空中兩個點電荷間的作用力與它們的電荷量的乘積成正比，與它們距離的平方成反比，作用力的方向沿著它們的連線。</p>
+            </div>
+            <div class="law-card">
+                <h3>歐姆定律</h3>
+                <p>導體中的電流與加在導體兩端的電壓成正比，與導體的電阻成反比。這是電路分析的基礎定律。</p>
+            </div>
+            <div class="law-card">
+                <h3>法拉第電磁感應定律</h3>
+                <p>閉合電路中感應電動勢的大小，與穿過這一電路的磁通量的變化率成正比。$\varepsilon = -N\cdot \frac{d\Phi}{dt}$</p>
+            </div>
+            <div class="law-card">
+                <h3>楞次定律</h3>
+                <p>感應電流的方向總是使感應電流產生的磁場阻礙引起感應電流的原磁場的變化。簡言之：來拒去留。</p>
+            </div>
+            <div class="law-card">
+                <h3>左手定則</h3>
+                <p>伸开左手，使大拇指與四指在同一平面內並互相垂直，讓磁線穿過掌心，四指指向電流方向，則大拇指所指的方向即為通電導線所受安培力的方向。</p>
+            </div>
+            <div class="law-card">
+                <h3>右手定則</h3>
+                <p>伸开右手，使大拇指與四指在同一平面內並互相垂直，讓磁線穿過掌心，大拇指指向導線運動方向，則四指所指的方向即為感應電流的方向。</p>
+            </div>
+        </section>
+
+        <!-- 練習題 -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">✏️</span>
+                練習鞏固
+            </h2>
+            <div class="exercise-tabs">
+                <button class="tab-btn active" onclick="switchTab('basic')">基礎題</button>
+                <button class="tab-btn" onclick="switchTab('advanced')">進階題</button>
+                <button class="tab-btn" onclick="switchTab('exam')">高考真題</button>
+            </div>
+
+            <!-- 基礎題 -->
+            <div class="exercise-list active" id="basic">
+                <div class="exercise-item" id="eq1">
+                    <h4><span class="exercise-number">1</span> 關於電場強度的概念，下列說法正確的是</h4>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="eq1" value="A">
+                            <span class="option-letter">A</span>
+                            電場強度與試探電荷有關
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="eq1" value="B">
+                            <span class="option-letter">B</span>
+                            電場強度與試探電荷無關
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="eq1" value="C">
+                            <span class="option-letter">C</span>
+                            電場強度方向與正電荷受力方向相同
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="eq1" value="D">
+                            <span class="option-letter">D</span>
+                            電場強度方向與負電荷受力方向相同
+                        </label>
+                    </div>
+                    <div class="exercise-footer">
+                        <button class="refresh-btn" onclick="refreshThisExercise('eq1')">🔄 換一題</button>
+                        <button class="answer-btn" onclick="checkAnswer('eq1', 'C')">提交答案</button>
+                    </div>
+                    <div class="answer-area" id="answer-eq1">
+                        <strong>正確答案：C</strong><br>
+                        電場強度是描述電場本身的物理量，與試探電荷無關。電場強度的方向規定為正電荷在該點所受電場力的方向。
+                    </div>
+                </div>
+
+                <div class="exercise-item" id="eq2">
+                    <h4><span class="exercise-number">2</span> 一個電阻兩端電壓為12V，通過電流為2A，則該電阻的阻值為</h4>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="eq2" value="A">
+                            <span class="option-letter">A</span>
+                            4Ω
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="eq2" value="B">
+                            <span class="option-letter">B</span>
+                            6Ω
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="eq2" value="C">
+                            <span class="option-letter">C</span>
+                            8Ω
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="eq2" value="D">
+                            <span class="option-letter">D</span>
+                            24Ω
+                        </label>
+                    </div>
+                    <div class="exercise-footer">
+                        <button class="refresh-btn" onclick="refreshThisExercise('eq2')">🔄 換一題</button>
+                        <button class="answer-btn" onclick="checkAnswer('eq2', 'B')">提交答案</button>
+                    </div>
+                    <div class="answer-area" id="answer-eq2">
+                        <strong>正確答案：B</strong><br>
+                        由歐姆定律 $R = \frac{U}{I} = \frac{12}{2} = 6\Omega$
+                    </div>
+                </div>
+            </div>
+
+            <!-- 進階題 -->
+            <div class="exercise-list" id="advanced">
+                <div class="exercise-item" id="eq3">
+                    <h4><span class="exercise-number">1</span> 如圖，平行板電容器兩極板間距離為d，板間電壓為U，一電子由靜止釋放，則電子從負極板運動到正極板的速度為</h4>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="eq3" value="A">
+                            <span class="option-letter">A</span>
+                            v = √(2eU/m)
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="eq3" value="B">
+                            <span class="option-letter">B</span>
+                            v = √(eU/m)
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="eq3" value="C">
+                            <span class="option-letter">C</span>
+                            v = √(2eU/md)
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="eq3" value="D">
+                            <span class="option-letter">D</span>
+                            v = 2eU/m
+                        </label>
+                    </div>
+                    <div class="exercise-footer">
+                        <button class="refresh-btn" onclick="refreshThisExercise('eq3')">🔄 換一題</button>
+                        <button class="answer-btn" onclick="checkAnswer('eq3', 'A')">提交答案</button>
+                    </div>
+                    <div class="answer-area" id="answer-eq3">
+                        <strong>正確答案：A</strong><br>
+                        電子在電場中加速，由動能定理：$\frac{1}{2}mv^2 = eU$，解得 $v = \sqrt{\frac{2eU}{m}}$
+                    </div>
+                </div>
+            </div>
+
+            <!-- 高考真題 -->
+            <div class="exercise-list" id="exam">
+                <div class="exercise-item" id="eq4">
+                    <h4><span class="exercise-number">（2023高考）</span>如圖，線圈在磁場中轉動，產生正弦交流電，則</h4>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="eq4" value="A">
+                            <span class="option-letter">A</span>
+                            線圈平面與中性面垂直時，感應電動勢最大
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="eq4" value="B">
+                            <span class="option-letter">B</span>
+                            線圈平面與中性面重合時，感應電動勢最大
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="eq4" value="C">
+                            <span class="option-letter">C</span>
+                            交流電頻率與線圈轉速無關
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="eq4" value="D">
+                            <span class="option-letter">D</span>
+                            交流電週期為2π/ω
+                        </label>
+                    </div>
+                    <div class="exercise-footer">
+                        <button class="refresh-btn" onclick="refreshThisExercise('eq4')">🔄 換一題</button>
+                        <button class="answer-btn" onclick="checkAnswer('eq4', 'A')">提交答案</button>
+                    </div>
+                    <div class="answer-area" id="answer-eq4">
+                        <strong>正確答案：A</strong><br>
+                        線圈平面與中性面垂直時，穿過線圈的磁通量變化率最大，感應電動勢最大。交流電週期 $T = \frac{2\pi}{\omega}$，頻率 $f = \frac{\omega}{2\pi}$，與轉速有關。
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>物理大師 · 電磁學部分 · 祝學習進步！</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // ===== 歐姆定律實驗 =====
+        function updateOhmsLaw() {
+            const V = parseFloat(document.getElementById('voltageSlider').value);
+            const R = parseFloat(document.getElementById('resistanceSlider').value);
+            
+            document.getElementById('voltageValue').textContent = V + ' V';
+            document.getElementById('resistanceValue').textContent = R + ' Ω';
+            
+            const I = V / R;
+            const P = V * I;
+            
+            document.getElementById('ohmsV').textContent = V + ' V';
+            document.getElementById('ohmsR').textContent = R + ' Ω';
+            document.getElementById('ohmsI').textContent = I.toFixed(2) + ' A';
+            document.getElementById('ohmsP').textContent = P.toFixed(2) + ' W';
+        }
+        
+        function startOhmsLaw() {
+            updateOhmsLaw();
+        }
+        
+        function resetOhmsLaw() {
+            document.getElementById('voltageSlider').value = 12;
+            document.getElementById('resistanceSlider').value = 10;
+            updateOhmsLaw();
+        }
+        
+        // ===== 庫侖定律實驗 =====
+        let coulombAnimId = null;
+        
+        function updateCoulombsLaw() {
+            const q1 = parseFloat(document.getElementById('q1Slider').value);
+            const q2 = parseFloat(document.getElementById('q2Slider').value);
+            const dist = parseFloat(document.getElementById('distSlider').value) / 100;
+            
+            document.getElementById('q1Value').textContent = q1 + ' μC';
+            document.getElementById('q2Value').textContent = q2 + ' μC';
+            document.getElementById('distValue').textContent = dist.toFixed(2) + ' m';
+            
+            const k = 9e9;
+            const Q1 = q1 * 1e-6;
+            const Q2 = q2 * 1e-6;
+            const F = k * Q1 * Q2 / (dist * dist);
+            
+            document.getElementById('coulombQ1').textContent = q1 + ' × 10⁻⁶ C';
+            document.getElementById('coulombQ2').textContent = q2 + ' × 10⁻⁶ C';
+            document.getElementById('coulombR').textContent = dist.toFixed(2) + ' m';
+            document.getElementById('coulombF').textContent = F.toFixed(2) + ' N';
+            
+            drawCoulombsLaw();
+        }
+        
+        function drawCoulombsLaw() {
+            const canvas = document.getElementById('coulombCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            const q1 = parseFloat(document.getElementById('q1Slider').value);
+            const q2 = parseFloat(document.getElementById('q2Slider').value);
+            const dist = parseFloat(document.getElementById('distSlider').value);
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            const centerY = height / 2;
+            const x1 = 150;
+            const x2 = 150 + dist * 5;
+            const r1 = 20 + q1 * 2;
+            const r2 = 20 + q2 * 2;
+            
+            // 繪製電荷1（正電荷，紅色）
+            ctx.beginPath();
+            ctx.arc(x1, centerY, r1, 0, Math.PI * 2);
+            ctx.fillStyle = q1 > 0 ? '#ef4444' : '#3b82f6';
+            ctx.fill();
+            ctx.strokeStyle = '#dc2626';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // 正號標記
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 16px Arial';
+            ctx.fillText('+', x1 - 5, centerY + 6);
+            
+            // 電場線
+            ctx.strokeStyle = 'rgba(59, 130, 246, 0.3)';
+            ctx.lineWidth = 1;
+            for (let angle = 0; angle < 360; angle += 30) {
+                ctx.beginPath();
+                ctx.moveTo(x1 + Math.cos(angle * Math.PI / 180) * r1, centerY + Math.sin(angle * Math.PI / 180) * r1);
+                ctx.lineTo(x1 + Math.cos(angle * Math.PI / 180) * (r1 + 30), centerY + Math.sin(angle * Math.PI / 180) * (r1 + 30));
+                ctx.stroke();
+            }
+            
+            // 繪製電荷2（正電荷，紅色）
+            ctx.beginPath();
+            ctx.arc(x2, centerY, r2, 0, Math.PI * 2);
+            ctx.fillStyle = q2 > 0 ? '#ef4444' : '#3b82f6';
+            ctx.fill();
+            ctx.strokeStyle = '#dc2626';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // 正號標記
+            ctx.fillStyle = '#fff';
+            ctx.fillText('+', x2 - 5, centerY + 6);
+            
+            // 電力線（連線）
+            ctx.strokeStyle = '#f59e0b';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([10, 5]);
+            ctx.beginPath();
+            ctx.moveTo(x1 + r1, centerY);
+            ctx.lineTo(x2 - r2, centerY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // 箭頭（斥力）
+            ctx.fillStyle = '#f59e0b';
+            ctx.beginPath();
+            ctx.moveTo(x1 + r1 + 20, centerY);
+            ctx.lineTo(x1 + r1 + 35, centerY - 8);
+            ctx.lineTo(x1 + r1 + 35, centerY + 8);
+            ctx.closePath();
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.moveTo(x2 - r2 - 20, centerY);
+            ctx.lineTo(x2 - r2 - 35, centerY - 8);
+            ctx.lineTo(x2 - r2 - 35, centerY + 8);
+            ctx.closePath();
+            ctx.fill();
+            
+            // 標籤
+            ctx.fillStyle = '#64748b';
+            ctx.font = '14px Arial';
+            ctx.fillText('r = ' + (dist/100).toFixed(2) + ' m', (x1 + x2) / 2 - 20, centerY + 40);
+        }
+        
+        function startCoulombsLaw() {
+            updateCoulombsLaw();
+        }
+        
+        function resetCoulombsLaw() {
+            document.getElementById('q1Slider').value = 2;
+            document.getElementById('q2Slider').value = 3;
+            document.getElementById('distSlider').value = 10;
+            updateCoulombsLaw();
+        }
+        
+        // ===== 電磁感應實驗 =====
+        let inductionAnimId = null;
+        let inductionPaused = false;
+        let magnetY = 50;
+        let lastPhi = 0;
+        
+        function updateInduction() {
+            const B = parseFloat(document.getElementById('magnetSlider').value);
+            const N = parseInt(document.getElementById('coilsSlider').value);
+            
+            document.getElementById('magnetValue').textContent = B.toFixed(1) + ' T';
+            document.getElementById('coilsValue').textContent = N + ' 匝';
+        }
+        
+        function startInduction() {
+            if (inductionAnimId) cancelAnimationFrame(inductionAnimId);
+            inductionPaused = false;
+            
+            const B = parseFloat(document.getElementById('magnetSlider').value);
+            const N = parseInt(document.getElementById('coilsSlider').value);
+            const A = 0.01; // 線圈面積 m²
+            
+            const canvas = document.getElementById('inductionCanvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            const coilCenterY = height / 2;
+            const coilRadius = 60;
+            let direction = 1;
+            let speed = 2;
+            
+            function animate() {
+                if (!inductionPaused) {
+                    magnetY += speed * direction;
+                    
+                    if (magnetY > 200 || magnetY < 20) {
+                        direction *= -1;
+                    }
+                }
+                
+                ctx.clearRect(0, 0, width, height);
+                
+                // 繪製線圈
+                ctx.strokeStyle = '#3b82f6';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.arc(width / 2, coilCenterY, coilRadius, 0, Math.PI * 2);
+                ctx.stroke();
+                
+                // 線圈導線
+                ctx.fillStyle = '#93c5fd';
+                ctx.fillRect(width / 2 - 30, coilCenterY + coilRadius, 10, 50);
+                ctx.fillRect(width / 2 + 20, coilCenterY + coilRadius, 10, 50);
+                
+                // 繪製磁鐵
+                const magnetHeight = 80;
+                const magnetTop = magnetY;
+                
+                // N極（紅色）
+                ctx.fillStyle = '#ef4444';
+                ctx.fillRect(width / 2 - 25, magnetTop, 50, magnetHeight / 2);
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 16px Arial';
+                ctx.fillText('N', width / 2 - 6, magnetTop + 20);
+                
+                // S極（藍色）
+                ctx.fillStyle = '#3b82f6';
+                ctx.fillRect(width / 2 - 25, magnetTop + magnetHeight / 2, 50, magnetHeight / 2);
+                ctx.fillStyle = '#fff';
+                ctx.fillText('S', width / 2 - 6, magnetTop + magnetHeight / 2 + 20);
+                
+                // 磁感應線
+                ctx.strokeStyle = 'rgba(147, 197, 253, 0.5)';
+                ctx.lineWidth = 2;
+                if (direction < 0) { // 磁鐵向下
+                    ctx.setLineDash([5, 5]);
+                    ctx.beginPath();
+                    ctx.moveTo(width / 2 - 15, magnetTop + magnetHeight);
+                    ctx.bezierCurveTo(width / 2 - 80, coilCenterY, width / 2 + 80, coilCenterY, width / 2 + 15, magnetTop + magnetHeight);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(width / 2 + 15, magnetTop + magnetHeight);
+                    ctx.bezierCurveTo(width / 2 + 80, coilCenterY, width / 2 - 80, coilCenterY, width / 2 - 15, magnetTop + magnetHeight);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                }
+                
+                // 計算磁通量和感應電動勢
+                const normalizedDist = Math.abs(magnetY - coilCenterY);
+                const effectFactor = Math.max(0, 1 - normalizedDist / 150);
+                const Phi = B * A * Math.cos(0) * effectFactor;
+                const dPhi = (Phi - lastPhi) * 60;
+                const epsilon = N * Math.abs(dPhi);
+                
+                lastPhi = Phi;
+                
+                document.getElementById('inductionPhi').textContent = Phi.toFixed(4) + ' Wb';
+                document.getElementById('inductionDPhi').textContent = dPhi.toFixed(4) + ' Wb/s';
+                document.getElementById('inductionEpsilon').textContent = epsilon.toFixed(3) + ' V';
+                document.getElementById('inductionDir').textContent = epsilon > 0.01 ? (direction < 0 ? '↓' : '↑') : '-';
+                
+                // 指示燈
+                if (epsilon > 0.1) {
+                    ctx.fillStyle = '#10b981';
+                    ctx.beginPath();
+                    ctx.arc(width / 2, coilCenterY, 10, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.fillStyle = '#fff';
+                    ctx.font = 'bold 12px Arial';
+                    ctx.fillText('電', width / 2 - 8, coilCenterY + 4);
+                }
+                
+                inductionAnimId = requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+        
+        function pauseInduction() {
+            inductionPaused = true;
+        }
+        
+        function resetInduction() {
+            if (inductionAnimId) cancelAnimationFrame(inductionAnimId);
+            inductionPaused = false;
+            magnetY = 50;
+            lastPhi = 0;
+            document.getElementById('inductionPhi').textContent = '0 Wb';
+            document.getElementById('inductionDPhi').textContent = '0 Wb/s';
+            document.getElementById('inductionEpsilon').textContent = '0 V';
+            document.getElementById('inductionDir').textContent = '-';
+        }
+        
+        // 初始化
+        window.addEventListener('load', function() {
+            updateOhmsLaw();
+            updateCoulombsLaw();
+            updateInduction();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 250">
+  <rect width="450" height="250" fill="#f8fafc"/>
+  
+  <!-- 地面线 -->
+  <line x1="0" y1="200" x2="450" y2="200" stroke="#64748b" stroke-width="2"/>
+  <text x="10" y="195" font-size="12" fill="#64748b">地面</text>
+  
+  <!-- 抛出点 -->
+  <circle cx="50" cy="80" r="6" fill="#3b82f6"/>
+  <text x="60" y="85" font-size="12" fill="#3b82f6">抛出点</text>
+  
+  <!-- 抛物线轨迹 -->
+  <path d="M50,80 Q150,20 250,80 Q350,140 400,200" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="8,4"/>
+  
+  <!-- 速度向量 (起点) -->
+  <line x1="50" y1="80" x2="120" y2="80" stroke="#10b981" stroke-width="3"/>
+  <polygon points="125,80 115,75 115,85" fill="#10b981"/>
+  <text x="75" y="75" font-size="12" fill="#10b981">v₀</text>
+  
+  <!-- 速度分解 -->
+  <line x1="50" y1="80" x2="50" y2="130" stroke="#f59e0b" stroke-width="2"/>
+  <polygon points="50,135 45,125 55,125" fill="#f59e0b"/>
+  <text x="30" y="110" font-size="12" fill="#f59e0b">vᵧ</text>
+  
+  <line x1="50" y1="130" x2="120" y2="130" stroke="#10b981" stroke-width="2"/>
+  <line x1="120" y1="80" x2="120" y2="130" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3,2"/>
+  
+  <!-- t时刻位置和速度 -->
+  <circle cx="200" cy="100" r="5" fill="#3b82f6"/>
+  <line x1="200" y1="100" x2="280" y2="100" stroke="#10b981" stroke-width="2"/>
+  <line x1="200" y1="100" x2="200" y2="155" stroke="#f59e0b" stroke-width="2"/>
+  <line x1="200" y1="155" x2="280" y2="155" stroke="#10b981" stroke-width="2" stroke-dasharray="3,2"/>
+  
+  <!-- 落地点 -->
+  <circle cx="400" cy="200" r="6" fill="#ef4444"/>
+  <text x="380" y="220" font-size="12" fill="#ef4444">落地点</text>
+  
+  <!-- 标题 -->
+  <text x="150" y="30" font-size="18" font-weight="bold" fill="#1e293b">平抛运动分解</text>
+  
+  <!-- 公式区域 -->
+  <rect x="320" y="10" width="120" height="80" fill="#e0e7ff" rx="8"/>
+  <text x="330" y="35" font-size="13" font-weight="bold" fill="#1e293b">水平方向:</text>
+  <text x="330" y="55" font-size="12" fill="#3b82f6">x = v₀t</text>
+  <text x="330" y="75" font-size="13" font-weight="bold" fill="#1e293b">竖直方向:</text>
+  <text x="330" y="90" font-size="12" fill="#3b82f6">y = ½gt²</text>
+</svg>

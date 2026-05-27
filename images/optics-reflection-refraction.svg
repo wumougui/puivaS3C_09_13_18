@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300">
+  <rect width="500" height="300" fill="#f8fafc"/>
+  
+  <!-- 分界面 -->
+  <line x1="0" y1="150" x2="500" y2="150" stroke="#64748b" stroke-width="2"/>
+  
+  <!-- 空气区域 -->
+  <text x="20" y="50" font-size="14" fill="#64748b">空气 (光疏介质, n₁)</text>
+  
+  <!-- 水区域 -->
+  <rect x="0" y="150" width="500" height="150" fill="#dbeafe"/>
+  <text x="20" y="250" font-size="14" fill="#3b82f6">水 (光密介质, n₂ > n₁)</text>
+  
+  <!-- 法线 -->
+  <line x1="250" y1="0" x2="250" y2="300" stroke="#94a3b8" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="260" y="30" font-size="14" fill="#94a3b8">法线</text>
+  
+  <!-- 入射光 -->
+  <line x1="100" y1="50" x2="250" y2="150" stroke="#ef4444" stroke-width="4"/>
+  <text x="150" y="80" font-size="14" font-weight="bold" fill="#ef4444">入射光</text>
+  
+  <!-- 入射角标注 -->
+  <path d="M220,150 Q200,120 180,150" fill="none" stroke="#ef4444" stroke-width="1"/>
+  <text x="170" y="130" font-size="12" fill="#ef4444">i</text>
+  
+  <!-- 反射光 -->
+  <line x1="250" y1="150" x2="400" y2="50" stroke="#10b981" stroke-width="4"/>
+  <text x="330" y="80" font-size="14" font-weight="bold" fill="#10b981">反射光</text>
+  
+  <!-- 反射角标注 -->
+  <path d="M280,150 Q300,120 320,150" fill="none" stroke="#10b981" stroke-width="1"/>
+  <text x="310" y="130" font-size="12" fill="#10b981">i'</text>
+  
+  <!-- 折射光 -->
+  <line x1="250" y1="150" x2="400" y2="220" stroke="#3b82f6" stroke-width="4"/>
+  <text x="330" y="200" font-size="14" font-weight="bold" fill="#3b82f6">折射光</text>
+  
+  <!-- 折射角标注 -->
+  <path d="M310,150 Q330,170 350,150" fill="none" stroke="#3b82f6" stroke-width="1"/>
+  <text x="350" y="175" font-size="12" fill="#3b82f6">r</text>
+  
+  <!-- 入射点 -->
+  <circle cx="250" cy="150" r="5" fill="#1e293b"/>
+  
+  <!-- 定律说明 -->
+  <rect x="10" y="180" width="180" height="100" fill="#fef3c7" rx="8"/>
+  <text x="20" y="205" font-size="13" font-weight="bold" fill="#1e293b">反射定律:</text>
+  <text x="20" y="225" font-size="12" fill="#64748b">反射角 = 入射角</text>
+  <text x="20" y="245" font-size="13" font-weight="bold" fill="#1e293b">折射定律:</text>
+  <text x="20" y="265" font-size="12" fill="#64748b">n₁sini = n₂sinr</text>
+  
+  <!-- 标题 -->
+  <text x="180" y="15" font-size="18" font-weight="bold" fill="#1e293b">光的反射与折射</text>
+</svg>

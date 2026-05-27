@@ -1,0 +1,1752 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>力學 - 物理大師</title>
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- KaTeX 公式渲染 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+    <script src="../js/katex-init.js"></script>
+    <style>
+        .refresh-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            transition: all 0.3s;
+        }
+        .refresh-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        .experiment-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .experiment-canvas {
+            margin-top: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        .experiment-results {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+        }
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.75rem;
+        }
+        .result-item {
+            background: white;
+            padding: 0.75rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .result-label {
+            color: #64748b;
+            font-size: 0.8rem;
+            margin-bottom: 0.25rem;
+        }
+        .result-value {
+            color: #1e293b;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .control-group {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+            font-weight: 500;
+        }
+        .control-value {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #e2e8f0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        .exp-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .exp-btn:hover {
+            transform: translateY(-2px);
+        }
+        .exp-btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .exp-btn-secondary {
+            background: #e2e8f0;
+            color: #475569;
+        }
+        .exp-btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        .theory-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            border-left: 4px solid #667eea;
+        }
+        .theory-box h4 {
+            color: #3b82f6;
+            margin-bottom: 0.5rem;
+        }
+        .theory-box p {
+            color: #475569;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- 頭部導航 -->
+    <header class="header">
+        <nav class="nav">
+            <a href="../index.html" class="logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+                物理大師
+            </a>
+            <button class="menu-toggle" onclick="toggleMenu()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="mechanics.html">力學</a></li>
+                <li><a href="electromagnetism.html">電磁學</a></li>
+                <li><a href="thermodynamics.html">熱學</a></li>
+                <li><a href="optics.html">光學</a></li>
+                <li><a href="modern-physics.html">現代物理</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <a href="../index.html" class="back-btn">← 返回首頁</a>
+
+        <!-- 頁面標題 -->
+        <div class="page-header">
+            <h1>⚙️ 力學</h1>
+            <p>運動與力、能量與動量、曲線運動與萬有引力</p>
+        </div>
+
+        <!-- 知識要點 -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">📖</span>
+                知識要點
+            </h2>
+            
+            <!-- 示意圖展示 -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                <div style="background: #f8fafc; border-radius: 12px; padding: 1rem; text-align: center; border: 2px solid #e0e7ff;">
+                    <h4 style="color: #3b82f6; margin-bottom: 0.75rem;">🔺 斜面受力分析</h4>
+                    <img src="../images/mechanics-inclined-plane.svg" alt="斜面受力分析" style="width: 100%; max-width: 380px; height: auto; border-radius: 8px;">
+                </div>
+                <div style="background: #f8fafc; border-radius: 12px; padding: 1rem; text-align: center; border: 2px solid #fce7f3;">
+                    <h4 style="color: #ef4444; margin-bottom: 0.75rem;">🔺 平拋運動</h4>
+                    <img src="../images/mechanics-projectile.svg" alt="平拋運動" style="width: 100%; max-width: 430px; height: auto; border-radius: 8px;">
+                </div>
+                <div style="background: #f8fafc; border-radius: 12px; padding: 1rem; text-align: center; border: 2px solid #d1fae5;">
+                    <h4 style="color: #10b981; margin-bottom: 0.75rem;">⭕ 圓周運動</h4>
+                    <img src="../images/mechanics-circular.svg" alt="圓周運動" style="width: 100%; max-width: 380px; height: auto; border-radius: 8px;">
+                </div>
+            </div>
+            
+            <ul class="knowledge-list">
+                <li><strong>運動的描述：</strong>位移、速度、加速度的關係，v-t圖像的物理意義</li>
+                <li><strong>勻變速直線運動：</strong>速度公式、位移公式、速度-位移關係式、自由落體運動</li>
+                <li><strong>相互作用：</strong>重力、彈力、摩擦力的分析，力的合成與分解</li>
+                <li><strong>牛頓運動定律：</strong>牛頓第一定律（慣性）、第二定律（$F=ma$）、第三定律（作用反作用）</li>
+                <li><strong>曲線運動：</strong>平拋運動、圓周運動的規律，天體運動</li>
+                <li><strong>功和能：</strong>功、功率、動能、勢能、機械能守恆定律</li>
+                <li><strong>動量守恆：</strong>動量、衝量、動量定理、動量守恆定律</li>
+            </ul>
+        </section>
+
+        <!-- 🔬 互動實驗區 -->
+        <section class="content-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; padding: 2rem;">
+            <h2 class="section-title" style="background: white; border-radius: 12px; padding: 1rem;">
+                <span class="section-icon">🔬</span>
+                互動實驗室
+            </h2>
+            
+            <!-- 實驗1：斜面運動實驗 -->
+            <div class="experiment-card">
+                <h3 style="color: #3b82f6; margin-bottom: 0.5rem;">🧪 實驗一：斜面運動實驗</h3>
+                <p style="color: #64748b; margin-bottom: 1rem;">調整斜面角度、摩擦力和質量，觀察物體的運動情況！</p>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>斜面角度</span>
+                        <span class="control-value" id="angleValue">30°</span>
+                    </div>
+                    <input type="range" id="angleSlider" min="5" max="60" value="30" oninput="updateInclinedPlaneValues()">
+                </div>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>摩擦係數 μ</span>
+                        <span class="control-value" id="frictionValue">0.20</span>
+                    </div>
+                    <input type="range" id="frictionSlider" min="0" max="1" step="0.05" value="0.2" oninput="updateInclinedPlaneValues()">
+                </div>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>物體質量 m</span>
+                        <span class="control-value" id="massValue">5 kg</span>
+                    </div>
+                    <input type="range" id="massSlider" min="1" max="20" value="5" oninput="updateInclinedPlaneValues()">
+                </div>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>重力加速度 g</span>
+                        <span class="control-value" id="gravityValue">9.8 m/s²</span>
+                    </div>
+                    <input type="range" id="gravitySlider" min="1" max="15" step="0.1" value="9.8" oninput="updateInclinedPlaneValues()">
+                </div>
+                
+                <div class="btn-group">
+                    <button class="exp-btn exp-btn-primary" onclick="startInclinedPlane()">
+                        ▶ 開始實驗
+                    </button>
+                    <button class="exp-btn exp-btn-secondary" onclick="pauseInclinedPlane()">
+                        ⏸ 暫停
+                    </button>
+                    <button class="exp-btn exp-btn-secondary" onclick="resetInclinedPlane()">
+                        🔄 重置
+                    </button>
+                </div>
+                
+                <div class="experiment-canvas">
+                    <canvas id="simCanvas" width="800" height="280"></canvas>
+                </div>
+                
+                <div class="experiment-results" id="inclinedResults" style="background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);">
+                    <h4 style="color: #3b82f6; margin-bottom: 0.75rem;">📊 實時數據</h4>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <div class="result-label">下滑力 F∥</div>
+                            <div class="result-value" id="resultForce">0 N</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">摩擦力 f</div>
+                            <div class="result-value" id="resultFriction">0 N</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">加速度 a</div>
+                            <div class="result-value" id="resultAccel">0 m/s²</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">運動時間</div>
+                            <div class="result-value" id="resultTime">0 s</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">瞬時速度</div>
+                            <div class="result-value" id="resultVelocity">0 m/s</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">位移</div>
+                            <div class="result-value" id="resultDisplacement">0 m</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="theory-box">
+                    <h4>💡 實驗原理</h4>
+                    <p>物體在斜面上運動時，受到重力分力（下滑力）和摩擦力的共同作用。合力 $F = mg\sin\theta - \mu mg\cos\theta$，加速度 $a = \frac{F}{m}$。當合力為負時，物體將靜止或向上運動。</p>
+                </div>
+            </div>
+
+            <!-- 實驗2：拋體運動實驗 -->
+            <div class="experiment-card">
+                <h3 style="color: #ef4444; margin-bottom: 0.5rem;">🧪 實驗二：平拋運動實驗</h3>
+                <p style="color: #64748b; margin-bottom: 1rem;">調整初速度和高度，觀察拋體運動的軌跡！</p>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>初速度 v₀</span>
+                        <span class="control-value" id="projVelocityValue">15 m/s</span>
+                    </div>
+                    <input type="range" id="projVelocitySlider" min="1" max="30" value="15" oninput="updateProjectileValues()">
+                </div>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>釋放高度 h</span>
+                        <span class="control-value" id="projHeightValue">5 m</span>
+                    </div>
+                    <input type="range" id="projHeightSlider" min="1" max="20" value="5" oninput="updateProjectileValues()">
+                </div>
+                
+                <div class="btn-group">
+                    <button class="exp-btn exp-btn-primary" onclick="startProjectile()">
+                        ▶ 開始實驗
+                    </button>
+                    <button class="exp-btn exp-btn-secondary" onclick="pauseProjectile()">
+                        ⏸ 暫停
+                    </button>
+                    <button class="exp-btn exp-btn-secondary" onclick="resetProjectile()">
+                        🔄 重置
+                    </button>
+                </div>
+                
+                <div class="experiment-canvas" style="height: 350px; background: linear-gradient(to bottom, #87CEEB 0%, #98D8C8 60%, #228B22 60%);">
+                    <canvas id="projCanvas" width="800" height="350"></canvas>
+                </div>
+                
+                <div class="experiment-results" style="background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);">
+                    <h4 style="color: #ec4899; margin-bottom: 0.75rem;">📊 運動分析</h4>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <div class="result-label">射程 R</div>
+                            <div class="result-value" id="projRange">0 m</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">飛行時間</div>
+                            <div class="result-value" id="projTime">0 s</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">落地速度</div>
+                            <div class="result-value" id="projFinalVel">0 m/s</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">最大高度</div>
+                            <div class="result-value" id="projMaxHeight">0 m</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">當前水平位移</div>
+                            <div class="result-value" id="projCurrentX">0 m</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">當前豎直位移</div>
+                            <div class="result-value" id="projCurrentY">0 m</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="theory-box">
+                    <h4>💡 實驗原理</h4>
+                    <p>平拋運動可分解為水平方向（勻速直線運動）和豎直方向（自由落體運動）。水平位移 $x = v_0t$，豎直位移 $y = \frac{1}{2}gt^2$。射程 $R = v_0 \times \sqrt{2h/g}$，落地速度 $v = \sqrt{v_0^2 + 2gh}$。</p>
+                </div>
+            </div>
+
+            <!-- 實驗3：彈簧振子實驗 -->
+            <div class="experiment-card">
+                <h3 style="color: #10b981; margin-bottom: 0.5rem;">🧪 實驗三：彈簧振子（簡諧運動）</h3>
+                <p style="color: #64748b; margin-bottom: 1rem;">觀察簡諧運動規律，調整參數了解週期與質量的關係！</p>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>彈簧常數 k</span>
+                        <span class="control-value" id="springKValue">20 N/m</span>
+                    </div>
+                    <input type="range" id="springKSlider" min="5" max="50" value="20" oninput="updateSpringValues()">
+                </div>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>振幅 A</span>
+                        <span class="control-value" id="amplitudeValue">0.8 m</span>
+                    </div>
+                    <input type="range" id="amplitudeSlider" min="0.2" max="1" step="0.1" value="0.8" oninput="updateSpringValues()">
+                </div>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>物體質量 m</span>
+                        <span class="control-value" id="springMassValue">2 kg</span>
+                    </div>
+                    <input type="range" id="springMassSlider" min="0.5" max="10" step="0.5" value="2" oninput="updateSpringValues()">
+                </div>
+                
+                <div class="btn-group">
+                    <button class="exp-btn exp-btn-success" onclick="startSpring()">
+                        ▶ 開始振動
+                    </button>
+                    <button class="exp-btn exp-btn-secondary" onclick="pauseSpring()">
+                        ⏸ 暫停
+                    </button>
+                    <button class="exp-btn exp-btn-secondary" onclick="resetSpring()">
+                        🔄 重置
+                    </button>
+                </div>
+                
+                <div class="experiment-canvas" style="height: 280px; background: #f8fafc;">
+                    <canvas id="springCanvas" width="800" height="280"></canvas>
+                </div>
+                
+                <div class="experiment-results" style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);">
+                    <h4 style="color: #059669; margin-bottom: 0.75rem;">📊 振動分析</h4>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <div class="result-label">角頻率 ω</div>
+                            <div class="result-value" id="springOmega">0 rad/s</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">週期 T</div>
+                            <div class="result-value" id="springPeriod">0 s</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">頻率 f</div>
+                            <div class="result-value" id="springFreq">0 Hz</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">最大速度</div>
+                            <div class="result-value" id="springMaxVel">0 m/s</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">最大加速度</div>
+                            <div class="result-value" id="springMaxAccel">0 m/s²</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">當前位移</div>
+                            <div class="result-value" id="springCurrentX">0 m</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="theory-box">
+                    <h4>💡 實驗原理</h4>
+                    <p>簡諧運動滿足 $x = A\cos(\omega t + \varphi)$，其中 $\omega = \sqrt{k/m}$。週期 $T = 2\pi\sqrt{m/k}$，頻率 $f = 1/T$。位移最大時速度為零、加速度最大；位移為零時速度最大、加速度為零。</p>
+                </div>
+            </div>
+
+            <!-- 實驗4：碰撞實驗 -->
+            <div class="experiment-card">
+                <h3 style="color: #f59e0b; margin-bottom: 0.5rem;">🧪 實驗四：碰撞與動量守恆</h3>
+                <p style="color: #64748b; margin-bottom: 1rem;">調整兩球質量，觀察彈性碰撞和完全非彈性碰撞！</p>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>球1質量 m₁</span>
+                        <span class="control-value" id="mass1Value">2 kg</span>
+                    </div>
+                    <input type="range" id="mass1Slider" min="1" max="10" value="2" oninput="updateCollisionValues()">
+                </div>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>球2質量 m₂</span>
+                        <span class="control-value" id="mass2Value">4 kg</span>
+                    </div>
+                    <input type="range" id="mass2Slider" min="1" max="10" value="4" oninput="updateCollisionValues()">
+                </div>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>碰撞類型</span>
+                    </div>
+                    <select id="collisionType" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid #e2e8f0; margin-top: 0.5rem;">
+                        <option value="elastic">彈性碰撞（動能守恆）</option>
+                        <option value="inelastic">完全非彈性碰撞</option>
+                    </select>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="exp-btn exp-btn-primary" onclick="startCollision()" style="background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);">
+                        ▶ 開始實驗
+                    </button>
+                    <button class="exp-btn exp-btn-secondary" onclick="pauseCollision()">
+                        ⏸ 暫停
+                    </button>
+                    <button class="exp-btn exp-btn-secondary" onclick="resetCollision()">
+                        🔄 重置
+                    </button>
+                </div>
+                
+                <div class="experiment-canvas" style="height: 200px; background: #f8fafc;">
+                    <canvas id="collisionCanvas" width="800" height="200"></canvas>
+                </div>
+                
+                <div class="experiment-results" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);">
+                    <h4 style="color: #d97706; margin-bottom: 0.75rem;">📊 動量分析</h4>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <div class="result-label">系統總動量（碰撞前）</div>
+                            <div class="result-value" id="collisionP1">0 kg·m/s</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">系統總動量（碰撞後）</div>
+                            <div class="result-value" id="collisionP2">0 kg·m/s</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">系統總動能（碰撞前）</div>
+                            <div class="result-value" id="collisionE1">0 J</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">系統總動能（碰撞後）</div>
+                            <div class="result-value" id="collisionE2">0 J</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">動量變化</div>
+                            <div class="result-value" id="collisionDeltaP">0 kg·m/s</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">動能損耗</div>
+                            <div class="result-value" id="collisionDeltaE">0 J</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="theory-box">
+                    <h4>💡 實驗原理</h4>
+                    <p>動量守恆定律：$m_1v_1 + m_2v_2 = m_1v_1' + m_2v_2'$（系統不受外力或合外力為零）。彈性碰撞動能也守恆；完全非彈性碰撞動能不守恆，會有能量損失轉化為內能。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 核心公式 -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">📐</span>
+                核心公式
+            </h2>
+            <div class="formula-grid">
+                <div class="formula-card">
+                    <h3>勻變速直線運動</h3>
+                    <div class="formula">$v = v_0 + at$</div>
+                    <div class="formula">$x = v_0t + \frac{1}{2}at^2$</div>
+                    <div class="formula">$v^2 - v_0^2 = 2ax$</div>
+                    <p class="formula-desc">適用於勻變速直線運動的所有情況</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>自由落體運動</h3>
+                    <div class="formula">$v = gt$</div>
+                    <div class="formula">$h = \frac{1}{2}gt^2$</div>
+                    <div class="formula">$v^2 = 2gh$</div>
+                    <p class="formula-desc">初速度為零，僅受重力作用</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>牛頓第二定律</h3>
+                    <div class="formula">$F = ma$</div>
+                    <p class="formula-desc">合外力等於質量與加速度的乘積</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>平拋運動</h3>
+                    <div class="formula">$x = v_0t$</div>
+                    <div class="formula">$y = \frac{1}{2}gt^2$</div>
+                    <div class="formula">$\tan\theta = \frac{v_y}{v_x} = \frac{gt}{v_0}$</div>
+                    <p class="formula-desc">水平勻速，豎直自由落體</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>向心力（圓周運動）</h3>
+                    <div class="formula">$F = \frac{mv^2}{r} = m\omega^2r$</div>
+                    <div class="formula">$a = \frac{v^2}{r} = \omega^2r$</div>
+                    <p class="formula-desc">指向圓心的合外力提供向心力</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>萬有引力</h3>
+                    <div class="formula">$F = GMm/r^2$</div>
+                    <div class="formula">$v = \sqrt{GM/r}$</div>
+                    <div class="formula">$T = 2\pi\sqrt{r^3/GM}$</div>
+                    <p class="formula-desc">天體運動的核心公式</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>功和功率</h3>
+                    <div class="formula">$W = Fs\cos\theta$</div>
+                    <div class="formula">$P = \frac{W}{t} = Fv$</div>
+                    <p class="formula-desc">功是能量轉化的量度</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>動能定理</h3>
+                    <div class="formula">$W_{合} = \frac{1}{2}mv_2^2 - \frac{1}{2}mv_1^2$</div>
+                    <p class="formula-desc">合外力做功等於動能變化量</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>機械能守恆</h3>
+                    <div class="formula">$E_1 = E_2$</div>
+                    <div class="formula">$\frac{1}{2}mv^2 + mgh = 恆量$</div>
+                    <p class="formula-desc">只有重力或彈力做功時</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>動量定理</h3>
+                    <div class="formula">$I = Ft = mv_2 - mv_1$</div>
+                    <p class="formula-desc">衝量等於動量變化量</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>動量守恆定律</h3>
+                    <div class="formula">$m_1v_1 + m_2v_2 = m_1v_1' + m_2v_2'$</div>
+                    <p class="formula-desc">系統合外力為零時</p>
+                </div>
+
+                <div class="formula-card">
+                    <h3>彈性碰撞</h3>
+                    <div class="formula">$v_1' = \frac{(m_1-m_2)v_1}{m_1+m_2} + \frac{2m_2v_2}{m_1+m_2}$</div>
+                    <p class="formula-desc">動量、動能均守恆</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 重要定律 -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">⚖️</span>
+                重要定律
+            </h2>
+            <div class="law-card">
+                <h3>牛頓第一定律（慣性定律）</h3>
+                <p>一切物體總保持勻速直線運動狀態或靜止狀態，除非有外力迫使它改變這種狀態。揭示了力的本質：力是改變物體運動狀態的原因，而不是維持運動的原因。</p>
+            </div>
+            <div class="law-card">
+                <h3>牛頓第二定律</h3>
+                <p>物體的加速度跟所受的合外力成正比，跟物體的質量成反比，加速度的方向跟合外力的方向相同。$F=ma$是動力學的核心公式。</p>
+            </div>
+            <div class="law-card">
+                <h3>牛頓第三定律</h3>
+                <p>兩個物體之間的作用力和反作用力大小相等、方向相反、作用在同一直線上。作用力和反作用力同時產生、同時消失。</p>
+            </div>
+            <div class="law-card">
+                <h3>機械能守恆定律</h3>
+                <p>在只有重力或彈力做功的物體系統內，動能和勢能可以互相轉化，但機械能的總量保持不變。這是能量守恆定律在力學中的具體體現。</p>
+            </div>
+            <div class="law-card">
+                <h3>動量守恆定律</h3>
+                <p>如果系統不受外力或所受合外力為零，系統的總動量保持不變。動量守恆是自然界最普遍、最基本的規律之一。</p>
+            </div>
+        </section>
+
+        <!-- 練習題 -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">✏️</span>
+                練習鞏固
+            </h2>
+            <div class="exercise-tabs">
+                <button class="tab-btn active" onclick="switchTab('basic')">基礎題</button>
+                <button class="tab-btn" onclick="switchTab('advanced')">進階題</button>
+                <button class="tab-btn" onclick="switchTab('exam')">高考真題</button>
+            </div>
+
+            <!-- 基礎題 -->
+            <div class="exercise-list active" id="basic">
+                <div class="exercise-item" id="q1">
+                    <h4><span class="exercise-number">1</span> 關於牛頓第一定律，下列說法正確的是</h4>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q1" value="A">
+                            <span class="option-letter">A</span>
+                            物體在不受力時，總保持靜止狀態
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="B">
+                            <span class="option-letter">B</span>
+                            物體在不受力時，總保持勻速直線運動狀態
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="C">
+                            <span class="option-letter">C</span>
+                            物體在不受力時，總保持勻速直線運動狀態或靜止狀態
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="D">
+                            <span class="option-letter">D</span>
+                            力是維持物體運動的原因
+                        </label>
+                    </div>
+                    <div class="exercise-footer">
+                        <button class="refresh-btn" onclick="refreshThisExercise('q1')">🔄 換一題</button>
+                        <button class="answer-btn" onclick="checkAnswer('q1', 'C')">提交答案</button>
+                    </div>
+                    <div class="answer-area" id="answer-q1">
+                        <strong>正確答案：C</strong><br>
+                        牛頓第一定律表明，一切物體在不受外力時，總保持勻速直線運動狀態或靜止狀態。力不是維持運動的原因，而是改變運動狀態的原因。
+                    </div>
+                </div>
+
+                <div class="exercise-item" id="q2">
+                    <h4><span class="exercise-number">2</span> 一個物體從靜止開始做勻加速直線運動，第3秒內的位移是6m，則物體的加速度是</h4>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q2" value="A">
+                            <span class="option-letter">A</span>
+                            1 m/s²
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="B">
+                            <span class="option-letter">B</span>
+                            2 m/s²
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="C">
+                            <span class="option-letter">C</span>
+                            3 m/s²
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="D">
+                            <span class="option-letter">D</span>
+                            4 m/s²
+                        </label>
+                    </div>
+                    <div class="exercise-footer">
+                        <button class="refresh-btn" onclick="refreshThisExercise('q2')">🔄 換一題</button>
+                        <button class="answer-btn" onclick="checkAnswer('q2', 'B')">提交答案</button>
+                    </div>
+                    <div class="answer-area" id="answer-q2">
+                        <strong>正確答案：B</strong><br>
+                        第3秒位移 $\Delta x = v_2\cdot\Delta t + \frac{1}{2}a\Delta t^2 = 2a + 2 = 6\text{ m}$，得 $a = 2$ m/s²
+                    </div>
+                </div>
+
+                <div class="exercise-item" id="q3">
+                    <h4><span class="exercise-number">3</span> 關於功率，下列說法正確的是</h4>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q3" value="A">
+                            <span class="option-letter">A</span>
+                            功率越大，做功越多
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="B">
+                            <span class="option-letter">B</span>
+                            功率越大，做功越快
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="C">
+                            <span class="option-letter">C</span>
+                            功率越小，機械效率越低
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="D">
+                            <span class="option-letter">D</span>
+                            機械做功越快，功率越小
+                        </label>
+                    </div>
+                    <div class="exercise-footer">
+                        <button class="refresh-btn" onclick="refreshThisExercise('q3')">🔄 換一題</button>
+                        <button class="answer-btn" onclick="checkAnswer('q3', 'B')">提交答案</button>
+                    </div>
+                    <div class="answer-area" id="answer-q3">
+                        <strong>正確答案：B</strong><br>
+                        功率是描述做功快慢的物理量，功率越大表示做功越快。功率與做功多少、做功時間都有關（$P=\frac{W}{t}$），與機械效率無直接關係。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 進階題 -->
+            <div class="exercise-list" id="advanced">
+                <div class="exercise-item" id="q4">
+                    <h4><span class="exercise-number">1</span> 一質量為m的小球從高度為h處自由下落，碰到水平放置的固定彈簧上，將彈簧壓縮x後彈起。不計空氣阻力，則</h4>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q4" value="A">
+                            <span class="option-letter">A</span>
+                            小球剛接觸彈簧時的速度最大
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="B">
+                            <span class="option-letter">B</span>
+                            小球速度為零時，加速度也為零
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="C">
+                            <span class="option-letter">C</span>
+                            小球彈起的最大高度可能高於h
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="D">
+                            <span class="option-letter">D</span>
+                            彈簧最大彈性勢能等於mgh
+                        </label>
+                    </div>
+                    <div class="exercise-footer">
+                        <button class="refresh-btn" onclick="refreshThisExercise('q4')">🔄 換一題</button>
+                        <button class="answer-btn" onclick="checkAnswer('q4', 'D')">提交答案</button>
+                    </div>
+                    <div class="answer-area" id="answer-q4">
+                        <strong>正確答案：D</strong><br>
+                        機械能守恆：初態重力勢能$mgh$ = 末態彈簧彈性勢能。小球在彈簧壓縮最大時速度為零、加速度最大（大於$g$）；彈起高度不會超過$h$。
+                    </div>
+                </div>
+
+                <div class="exercise-item" id="q5">
+                    <h4><span class="exercise-number">2</span> 水平面上有兩個質量分別為m₁和m₂的物體，它們之間的動摩擦因數為μ，相互作用力F作用在m₁上。要使兩物體保持相對靜止，F的最大值是</h4>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q5" value="A">
+                            <span class="option-letter">A</span>
+                            μg(m₁+m₂)
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="B">
+                            <span class="option-letter">B</span>
+                            μg(m₁+m₂)/m₂·m₁
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="C">
+                            <span class="option-letter">C</span>
+                            μg(m₁+m₂)m₁/m₂
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="D">
+                            <span class="option-letter">D</span>
+                            μg(m₁+m₂)
+                        </label>
+                    </div>
+                    <div class="exercise-footer">
+                        <button class="refresh-btn" onclick="refreshThisExercise('q5')">🔄 換一題</button>
+                        <button class="answer-btn" onclick="checkAnswer('q5', 'D')">提交答案</button>
+                    </div>
+                    <div class="answer-area" id="answer-q5">
+                        <strong>正確答案：D</strong><br>
+                        兩物體相對靜止時，加速度相同。對整體分析：$F = (m_1+m_2)a$<br>
+                        對$m_2$分析：靜摩擦力提供加速度，$f = m_2a \leq \mu mg$<br>
+                        聯立解得：$F \leq \mu g(m_1+m_2)$
+                    </div>
+                </div>
+            </div>
+
+            <!-- 高考真題 -->
+            <div class="exercise-list" id="exam">
+                <div class="exercise-item" id="q7">
+                    <h4><span class="exercise-number">（2024高考）</span>一顆衛星繞地球做圓周運動，軌道半徑為r，週期為T。已知地球半徑為R，則地球質量M為</h4>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q7" value="A">
+                            <span class="option-letter">A</span>
+                            4π²r³/(GT²)
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q7" value="B">
+                            <span class="option-letter">B</span>
+                            4π²R³/(GT²)
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q7" value="C">
+                            <span class="option-letter">C</span>
+                            GT²/(4π²r³)
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q7" value="D">
+                            <span class="option-letter">D</span>
+                            GT²/(4π²R³)
+                        </label>
+                    </div>
+                    <div class="exercise-footer">
+                        <button class="refresh-btn" onclick="refreshThisExercise('q7')">🔄 換一題</button>
+                        <button class="answer-btn" onclick="checkAnswer('q7', 'A')">提交答案</button>
+                    </div>
+                    <div class="answer-area" id="answer-q7">
+                        <strong>正確答案：A</strong><br>
+                        萬有引力提供向心力：$GMm/r^2 = m(2\pi/T)^2 r$<br>
+                        解得：$M = \frac{4\pi^2 r^3}{GT^2}$
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>物理大師 · 力學部分 · 祝學習進步！</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // ===== 斜面實驗 =====
+        let inclAnimId = null;
+        let inclPaused = false;
+        let inclStartTime = 0;
+        let inclElapsed = 0;
+        
+        function updateInclinedPlaneValues() {
+            const angle = document.getElementById('angleSlider').value;
+            const friction = document.getElementById('frictionSlider').value;
+            const mass = document.getElementById('massSlider').value;
+            const gravity = document.getElementById('gravitySlider').value;
+            
+            document.getElementById('angleValue').textContent = angle + '°';
+            document.getElementById('frictionValue').textContent = parseFloat(friction).toFixed(2);
+            document.getElementById('massValue').textContent = mass + ' kg';
+            document.getElementById('gravityValue').textContent = gravity + ' m/s²';
+            
+            drawInclinedPlane();
+            calculateInclinedPlaneValues();
+        }
+        
+        function calculateInclinedPlaneValues() {
+            const angle = parseFloat(document.getElementById('angleSlider').value);
+            const friction = parseFloat(document.getElementById('frictionSlider').value);
+            const mass = parseFloat(document.getElementById('massSlider').value);
+            const g = parseFloat(document.getElementById('gravitySlider').value);
+            
+            const theta = angle * Math.PI / 180;
+            const Fparallel = mass * g * Math.sin(theta);
+            const N = mass * g * Math.cos(theta);
+            const f = friction * N;
+            const a = (Fparallel - f) / mass;
+            
+            document.getElementById('resultForce').textContent = Fparallel.toFixed(2) + ' N';
+            document.getElementById('resultFriction').textContent = f.toFixed(2) + ' N';
+            document.getElementById('resultAccel').textContent = a.toFixed(2) + ' m/s²';
+        }
+        
+        function drawInclinedPlane() {
+            const canvas = document.getElementById('simCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            const angle = parseFloat(document.getElementById('angleSlider').value);
+            const theta = angle * Math.PI / 180;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            // 繪製地面
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillRect(0, height - 40, width, 40);
+            
+            // 計算斜面
+            const baseX = 80;
+            const baseY = height - 40;
+            const slopeLength = 500;
+            const endX = baseX + slopeLength * Math.cos(theta);
+            const endY = baseY - slopeLength * Math.sin(theta);
+            
+            // 繪製斜面
+            ctx.strokeStyle = '#3b82f6';
+            ctx.lineWidth = 6;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(baseX, baseY);
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+            
+            // 繪製牆壁
+            ctx.fillStyle = '#64748b';
+            ctx.fillRect(baseX - 15, endY, 20, baseY - endY);
+            
+            // 角度標記
+            ctx.fillStyle = '#3b82f6';
+            ctx.font = 'bold 16px Arial';
+            ctx.fillText(angle + '°', 30, baseY - 20);
+            
+            // 繪製角度弧線
+            ctx.strokeStyle = '#3b82f6';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(baseX, baseY, 40, -theta, 0);
+            ctx.stroke();
+        }
+        
+        function startInclinedPlane() {
+            if (inclAnimId) cancelAnimationFrame(inclAnimId);
+            inclPaused = false;
+            inclStartTime = Date.now();
+            
+            const angle = parseFloat(document.getElementById('angleSlider').value);
+            const friction = parseFloat(document.getElementById('frictionSlider').value);
+            const mass = parseFloat(document.getElementById('massSlider').value);
+            const g = parseFloat(document.getElementById('gravitySlider').value);
+            
+            const theta = angle * Math.PI / 180;
+            const Fparallel = mass * g * Math.sin(theta);
+            const N = mass * g * Math.cos(theta);
+            const f = friction * N;
+            const a = Math.max(0, (Fparallel - f) / mass);
+            
+            const canvas = document.getElementById('simCanvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            let velocity = 0;
+            let displacement = 0;
+            const scale = 20; // 像素/米
+            
+            function animate() {
+                if (!inclPaused) {
+                    const dt = 0.016;
+                    velocity += a * dt;
+                    displacement += velocity * dt;
+                }
+                
+                ctx.clearRect(0, 0, width, height);
+                
+                // 繪製地面
+                ctx.fillStyle = '#94a3b8';
+                ctx.fillRect(0, height - 40, width, 40);
+                
+                // 繪製斜面
+                const baseX = 80;
+                const baseY = height - 40;
+                const slopeLength = 500;
+                const endX = baseX + slopeLength * Math.cos(theta);
+                const endY = baseY - slopeLength * Math.sin(theta);
+                
+                ctx.strokeStyle = '#3b82f6';
+                ctx.lineWidth = 6;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(baseX, baseY);
+                ctx.lineTo(endX, endY);
+                ctx.stroke();
+                
+                // 繪製牆壁
+                ctx.fillStyle = '#64748b';
+                ctx.fillRect(baseX - 15, endY, 20, baseY - endY);
+                
+                // 計算方塊位置
+                const boxSize = 35;
+                const worldX = 0.5 + displacement; // 起始位置0.5m
+                const newBoxX = baseX + worldX * scale * Math.cos(theta);
+                const newBoxY = baseY - worldX * scale * Math.sin(theta) - boxSize/2;
+                
+                // 繪製方塊陰影
+                ctx.fillStyle = 'rgba(0,0,0,0.15)';
+                ctx.beginPath();
+                ctx.ellipse(newBoxX, baseY + 5, boxSize/2, 8, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // 繪製方塊
+                ctx.save();
+                ctx.translate(newBoxX, newBoxY);
+                ctx.rotate(-theta);
+                ctx.fillStyle = '#ef4444';
+                ctx.fillRect(-boxSize/2, -boxSize/2, boxSize, boxSize);
+                ctx.strokeStyle = '#dc2626';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(-boxSize/2, -boxSize/2, boxSize, boxSize);
+                
+                // 畫上表面箭頭
+                ctx.strokeStyle = '#10b981';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(-boxSize/2 + 5, -boxSize/2);
+                ctx.lineTo(boxSize/2 - 5, -boxSize/2);
+                ctx.stroke();
+                
+                ctx.restore();
+                
+                // 更新數據顯示
+                const elapsed = inclPaused ? inclElapsed : (Date.now() - inclStartTime) / 1000;
+                document.getElementById('resultTime').textContent = elapsed.toFixed(2) + ' s';
+                document.getElementById('resultVelocity').textContent = velocity.toFixed(2) + ' m/s';
+                document.getElementById('resultDisplacement').textContent = displacement.toFixed(2) + ' m';
+                
+                // 如果方塊離開畫布
+                if (newBoxX > width - 50 || displacement > 20) {
+                    // 重置
+                    displacement = 0;
+                    velocity = 0;
+                }
+                
+                inclAnimId = requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+        
+        function pauseInclinedPlane() {
+            inclPaused = true;
+            inclElapsed = (Date.now() - inclStartTime) / 1000;
+        }
+        
+        function resetInclinedPlane() {
+            if (inclAnimId) cancelAnimationFrame(inclAnimId);
+            inclPaused = false;
+            inclElapsed = 0;
+            document.getElementById('resultTime').textContent = '0 s';
+            document.getElementById('resultVelocity').textContent = '0 m/s';
+            document.getElementById('resultDisplacement').textContent = '0 m';
+            drawInclinedPlane();
+        }
+        
+        // ===== 拋體運動實驗 =====
+        let projAnimId = null;
+        let projPaused = false;
+        let projStartTime = 0;
+        let projElapsed = 0;
+        
+        function updateProjectileValues() {
+            document.getElementById('projVelocityValue').textContent = document.getElementById('projVelocitySlider').value + ' m/s';
+            document.getElementById('projHeightValue').textContent = document.getElementById('projHeightSlider').value + ' m';
+        }
+        
+        function drawProjectileStatic() {
+            const canvas = document.getElementById('projCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            const v0 = parseFloat(document.getElementById('projVelocitySlider').value);
+            const h = parseFloat(document.getElementById('projHeightSlider').value);
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            // 繪製草地
+            ctx.fillStyle = '#228B22';
+            ctx.fillRect(0, height * 0.7, width, height * 0.3);
+            
+            // 地面線
+            ctx.strokeStyle = '#166534';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(0, height * 0.7);
+            ctx.lineTo(width, height * 0.7);
+            ctx.stroke();
+            
+            // 發射台
+            const startX = 60;
+            const startY = height * 0.7 - h * 12;
+            
+            ctx.fillStyle = '#64748b';
+            ctx.fillRect(30, height * 0.7 - 25, 60, 25);
+            
+            // 標記
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 12px Arial';
+            ctx.fillText('發射點', 40, height * 0.7 - 35);
+            
+            // 高度標尺
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(20, startY);
+            ctx.lineTo(20, height * 0.7);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            ctx.fillStyle = '#fff';
+            ctx.fillText('h=' + h + 'm', 5, (startY + height * 0.7) / 2);
+        }
+        
+        function startProjectile() {
+            if (projAnimId) cancelAnimationFrame(projAnimId);
+            projPaused = false;
+            projStartTime = Date.now();
+            
+            const v0 = parseFloat(document.getElementById('projVelocitySlider').value);
+            const h = parseFloat(document.getElementById('projHeightSlider').value);
+            const g = 9.8;
+            
+            const canvas = document.getElementById('projCanvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            const startX = 60;
+            const startY = height * 0.7 - h * 12;
+            const scaleX = width * 0.7 / (v0 * 2 * Math.sqrt(2 * h / g));
+            const scaleY = (height * 0.65) / (h + 2 * h);
+            
+            const totalTime = 2 * Math.sqrt(2 * h / g);
+            const range = v0 * totalTime;
+            const maxHeight = h + v0 * v0 / (2 * g); // 不對，這是豎直上拋
+            
+            let progress = 0;
+            const duration = 3000;
+            
+            function animate() {
+                const elapsed = projPaused ? projElapsed : (Date.now() - projStartTime);
+                progress = Math.min(1, elapsed / duration);
+                
+                const currentTime = progress * totalTime;
+                
+                ctx.clearRect(0, 0, width, height);
+                
+                // 草地
+                ctx.fillStyle = '#228B22';
+                ctx.fillRect(0, height * 0.7, width, height * 0.3);
+                
+                ctx.strokeStyle = '#166534';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(0, height * 0.7);
+                ctx.lineTo(width, height * 0.7);
+                ctx.stroke();
+                
+                // 發射台
+                ctx.fillStyle = '#64748b';
+                ctx.fillRect(30, height * 0.7 - 25, 60, 25);
+                
+                // 繪製軌跡
+                ctx.strokeStyle = 'rgba(255, 100, 100, 0.4)';
+                ctx.lineWidth = 3;
+                ctx.setLineDash([8, 8]);
+                ctx.beginPath();
+                
+                for (let i = 0; i <= 100; i++) {
+                    const t = (i / 100) * totalTime;
+                    const x = startX + v0 * t * scaleX / (totalTime);
+                    const y = startY + 0.5 * g * t * t * scaleY / (totalTime * totalTime);
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+                ctx.setLineDash([]);
+                
+                // 當前位置
+                const currentX = startX + v0 * currentTime * scaleX / totalTime;
+                const currentY = startY + 0.5 * g * currentTime * currentTime * scaleY / (totalTime * totalTime);
+                
+                // 小球
+                const ballRadius = 12;
+                
+                // 影子
+                ctx.fillStyle = 'rgba(0,0,0,0.2)';
+                ctx.beginPath();
+                ctx.ellipse(currentX, height * 0.7 - 5, ballRadius, 4, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // 速度向量
+                if (progress > 0 && progress < 1) {
+                    const vx = v0 * scaleX / totalTime;
+                    const vy = g * currentTime * scaleY / totalTime;
+                    
+                    // 水平速度
+                    ctx.strokeStyle = '#10b981';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(currentX, currentY);
+                    ctx.lineTo(currentX + vx * 0.3, currentY);
+                    ctx.stroke();
+                    ctx.fillStyle = '#10b981';
+                    ctx.font = 'bold 12px Arial';
+                    ctx.fillText('vₓ', currentX + vx * 0.3 + 5, currentY - 5);
+                    
+                    // 豎直速度
+                    ctx.strokeStyle = '#3b82f6';
+                    ctx.beginPath();
+                    ctx.moveTo(currentX, currentY);
+                    ctx.lineTo(currentX, currentY + vy * 0.3);
+                    ctx.stroke();
+                    ctx.fillStyle = '#3b82f6';
+                    ctx.fillText('vᵧ', currentX + 5, currentY + vy * 0.3 + 15);
+                }
+                
+                // 小球
+                ctx.beginPath();
+                ctx.arc(currentX, currentY, ballRadius, 0, Math.PI * 2);
+                ctx.fillStyle = '#ef4444';
+                ctx.fill();
+                ctx.strokeStyle = '#dc2626';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // 高光
+                ctx.beginPath();
+                ctx.arc(currentX - 4, currentY - 4, 4, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255,255,255,0.6)';
+                ctx.fill();
+                
+                // 更新數據
+                document.getElementById('projRange').textContent = range.toFixed(2) + ' m';
+                document.getElementById('projTime').textContent = totalTime.toFixed(2) + ' s';
+                document.getElementById('projFinalVel').textContent = Math.sqrt(v0 * v0 + 2 * g * h).toFixed(2) + ' m/s';
+                document.getElementById('projMaxHeight').textContent = h.toFixed(2) + ' m';
+                document.getElementById('projCurrentX').textContent = (v0 * currentTime).toFixed(2) + ' m';
+                document.getElementById('projCurrentY').textContent = Math.max(0, h - 0.5 * g * currentTime * currentTime).toFixed(2) + ' m';
+                
+                if (progress < 1) {
+                    projAnimId = requestAnimationFrame(animate);
+                }
+            }
+            
+            animate();
+        }
+        
+        function pauseProjectile() {
+            projPaused = true;
+            projElapsed = Date.now() - projStartTime;
+        }
+        
+        function resetProjectile() {
+            if (projAnimId) cancelAnimationFrame(projAnimId);
+            projPaused = false;
+            projElapsed = 0;
+            document.getElementById('projRange').textContent = '0 m';
+            document.getElementById('projTime').textContent = '0 s';
+            document.getElementById('projFinalVel').textContent = '0 m/s';
+            document.getElementById('projMaxHeight').textContent = '0 m';
+            document.getElementById('projCurrentX').textContent = '0 m';
+            document.getElementById('projCurrentY').textContent = '0 m';
+            drawProjectileStatic();
+        }
+        
+        // ===== 彈簧振子實驗 =====
+        let springAnimId = null;
+        let springPaused = false;
+        let springStartTime = 0;
+        
+        function updateSpringValues() {
+            document.getElementById('springKValue').textContent = document.getElementById('springKSlider').value + ' N/m';
+            document.getElementById('amplitudeValue').textContent = document.getElementById('amplitudeSlider').value + ' m';
+            document.getElementById('springMassValue').textContent = document.getElementById('springMassSlider').value + ' kg';
+            
+            const k = parseFloat(document.getElementById('springKSlider').value);
+            const m = parseFloat(document.getElementById('springMassSlider').value);
+            const A = parseFloat(document.getElementById('amplitudeSlider').value);
+            
+            const omega = Math.sqrt(k / m);
+            const T = 2 * Math.PI / omega;
+            const f = 1 / T;
+            const vMax = A * omega;
+            const aMax = A * omega * omega;
+            
+            document.getElementById('springOmega').textContent = omega.toFixed(2) + ' rad/s';
+            document.getElementById('springPeriod').textContent = T.toFixed(2) + ' s';
+            document.getElementById('springFreq').textContent = f.toFixed(2) + ' Hz';
+            document.getElementById('springMaxVel').textContent = vMax.toFixed(2) + ' m/s';
+            document.getElementById('springMaxAccel').textContent = aMax.toFixed(2) + ' m/s²';
+        }
+        
+        function drawSpringStatic() {
+            const canvas = document.getElementById('springCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            const centerX = width / 2;
+            
+            // 天花板
+            ctx.fillStyle = '#64748b';
+            ctx.fillRect(centerX - 120, 0, 240, 25);
+            
+            // 固定點標記
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 14px Arial';
+            ctx.fillText('固定', centerX + 90, 16);
+            
+            // 平衡位置線
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([10, 5]);
+            ctx.beginPath();
+            ctx.moveTo(centerX - 100, height / 2 + 50);
+            ctx.lineTo(centerX + 100, height / 2 + 50);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = '#64748b';
+            ctx.font = '12px Arial';
+            ctx.fillText('平衡位置', centerX + 60, height / 2 + 45);
+        }
+        
+        function startSpring() {
+            if (springAnimId) cancelAnimationFrame(springAnimId);
+            springPaused = false;
+            springStartTime = Date.now();
+            
+            const k = parseFloat(document.getElementById('springKSlider').value);
+            const m = parseFloat(document.getElementById('springMassSlider').value);
+            const A = parseFloat(document.getElementById('amplitudeSlider').value);
+            
+            const omega = Math.sqrt(k / m);
+            
+            const canvas = document.getElementById('springCanvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            const centerX = width / 2;
+            const equilibriumY = height / 2 + 50;
+            const springNaturalLength = 80;
+            const scale = 80; // 每米對應像素
+            
+            function animate() {
+                const elapsed = (Date.now() - springStartTime) / 1000;
+                const t = elapsed;
+                
+                // 位移 x = A * cos(ωt)
+                const displacement = A * Math.cos(omega * t);
+                const springLength = springNaturalLength + displacement * scale;
+                
+                const blockY = 25 + springLength;
+                
+                ctx.clearRect(0, 0, width, height);
+                
+                // 天花板
+                ctx.fillStyle = '#64748b';
+                ctx.fillRect(centerX - 120, 0, 240, 25);
+                ctx.fillStyle = '#333';
+                ctx.font = 'bold 14px Arial';
+                ctx.fillText('固定', centerX + 90, 16);
+                
+                // 平衡位置線
+                ctx.strokeStyle = '#94a3b8';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([10, 5]);
+                ctx.beginPath();
+                ctx.moveTo(centerX - 100, equilibriumY);
+                ctx.lineTo(centerX + 100, equilibriumY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                
+                // 振幅標記
+                ctx.strokeStyle = '#10b981';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(centerX - 90, equilibriumY - A * scale);
+                ctx.lineTo(centerX + 90, equilibriumY - A * scale);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(centerX - 90, equilibriumY + A * scale);
+                ctx.lineTo(centerX + 90, equilibriumY + A * scale);
+                ctx.stroke();
+                ctx.fillStyle = '#10b981';
+                ctx.font = 'bold 11px Arial';
+                ctx.fillText('+A', centerX - 85, equilibriumY - A * scale + 4);
+                ctx.fillText('-A', centerX - 85, equilibriumY + A * scale + 4);
+                
+                // 繪製彈簧
+                ctx.strokeStyle = '#f59e0b';
+                ctx.lineWidth = 4;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(centerX, 25);
+                
+                const coils = 10;
+                const coilWidth = 25;
+                for (let i = 0; i <= coils; i++) {
+                    const y = 25 + (springLength * i / coils);
+                    const x = centerX + (i % 2 === 0 ? -coilWidth : coilWidth);
+                    ctx.lineTo(x, y);
+                }
+                ctx.lineTo(centerX, 25 + springLength);
+                ctx.stroke();
+                
+                // 振子和彈簧末端的連接線
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(centerX, 25 + springLength);
+                ctx.lineTo(centerX, blockY);
+                ctx.stroke();
+                
+                // 物體
+                const blockHeight = 35;
+                const blockWidth = 50;
+                ctx.fillStyle = '#3b82f6';
+                ctx.fillRect(centerX - blockWidth/2, blockY, blockWidth, blockHeight);
+                ctx.strokeStyle = '#2563eb';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(centerX - blockWidth/2, blockY, blockWidth, blockHeight);
+                
+                // 質量標記
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 12px Arial';
+                ctx.fillText('m=' + m + 'kg', centerX - 18, blockY + 22);
+                
+                // 位移指示
+                if (Math.abs(displacement) > 0.01) {
+                    ctx.strokeStyle = '#ef4444';
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([5, 5]);
+                    ctx.beginPath();
+                    ctx.moveTo(centerX + blockWidth/2 + 10, equilibriumY);
+                    ctx.lineTo(centerX + blockWidth/2 + 10, blockY + blockHeight/2);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    
+                    ctx.fillStyle = '#ef4444';
+                    ctx.font = 'bold 12px Arial';
+                    const xText = displacement > 0 ? '+' + displacement.toFixed(2) : displacement.toFixed(2);
+                    ctx.fillText('x=' + xText + 'm', centerX + blockWidth/2 + 15, (equilibriumY + blockY + blockHeight/2) / 2);
+                }
+                
+                // 更新數據
+                document.getElementById('springCurrentX').textContent = displacement.toFixed(3) + ' m';
+                
+                springAnimId = requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+        
+        function pauseSpring() {
+            springPaused = true;
+        }
+        
+        function resetSpring() {
+            if (springAnimId) cancelAnimationFrame(springAnimId);
+            springPaused = false;
+            springStartTime = 0;
+            document.getElementById('springCurrentX').textContent = '0 m';
+            drawSpringStatic();
+            updateSpringValues();
+        }
+        
+        // ===== 碰撞實驗 =====
+        let collisionAnimId = null;
+        let collisionPaused = false;
+        let collisionStartTime = 0;
+        
+        function updateCollisionValues() {
+            document.getElementById('mass1Value').textContent = document.getElementById('mass1Slider').value + ' kg';
+            document.getElementById('mass2Value').textContent = document.getElementById('mass2Slider').value + ' kg';
+            
+            const m1 = parseFloat(document.getElementById('mass1Slider').value);
+            const m2 = parseFloat(document.getElementById('mass2Slider').value);
+            
+            const p1 = m1 * 5; // 初始速度為5
+            const E1 = 0.5 * m1 * 5 * 5 + 0; // 動能
+            
+            document.getElementById('collisionP1').textContent = p1.toFixed(2) + ' kg·m/s';
+            document.getElementById('collisionE1').textContent = E1.toFixed(2) + ' J';
+        }
+        
+        function startCollision() {
+            if (collisionAnimId) cancelAnimationFrame(collisionAnimId);
+            collisionPaused = false;
+            collisionStartTime = Date.now();
+            
+            const m1 = parseFloat(document.getElementById('mass1Slider').value);
+            const m2 = parseFloat(document.getElementById('mass2Slider').value);
+            const isElastic = document.getElementById('collisionType').value === 'elastic';
+            
+            const v1_initial = 5;
+            const v2_initial = 0;
+            
+            const canvas = document.getElementById('collisionCanvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            let pos1 = 100;
+            let pos2 = 500;
+            let vel1 = v1_initial;
+            let vel2 = v2_initial;
+            let collided = false;
+            let collidedTime = 0;
+            
+            const r1 = 15 + m1 * 2;
+            const r2 = 15 + m2 * 2;
+            
+            function animate() {
+                const elapsed = (Date.now() - collisionStartTime) / 1000;
+                
+                if (!collided) {
+                    pos1 += vel1 * 3;
+                    
+                    if (pos1 + r1 >= pos2 - r2 && vel1 > vel2) {
+                        collided = true;
+                        collidedTime = elapsed;
+                        
+                        // 計算碰撞後速度
+                        if (isElastic) {
+                            // 彈性碰撞
+                            const temp = vel1;
+                            vel1 = ((m1 - m2) * vel1 + 2 * m2 * vel2) / (m1 + m2);
+                            vel2 = ((m2 - m1) * vel2 + 2 * m1 * temp) / (m1 + m2);
+                        } else {
+                            // 完全非彈性碰撞
+                            const commonV = (m1 * vel1 + m2 * vel2) / (m1 + m2);
+                            vel1 = commonV;
+                            vel2 = commonV;
+                        }
+                    }
+                } else {
+                    pos1 += vel1 * 3;
+                    pos2 += vel2 * 3;
+                }
+                
+                // 繪製
+                ctx.clearRect(0, 0, width, height);
+                
+                // 地面
+                ctx.fillStyle = '#94a3b8';
+                ctx.fillRect(0, height - 30, width, 30);
+                
+                // 球1
+                ctx.beginPath();
+                ctx.arc(pos1, height - 30 - r1, r1, 0, Math.PI * 2);
+                ctx.fillStyle = '#ef4444';
+                ctx.fill();
+                ctx.strokeStyle = '#dc2626';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // 球1標籤
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 12px Arial';
+                ctx.fillText('m₁=' + m1, pos1 - 20, height - 30 - r1 - 10);
+                
+                // 速度向量1
+                if (Math.abs(vel1) > 0.1) {
+                    ctx.strokeStyle = '#10b981';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(pos1, height - 30 - r1);
+                    ctx.lineTo(pos1 + vel1 * 8, height - 30 - r1);
+                    ctx.stroke();
+                }
+                
+                // 球2
+                ctx.beginPath();
+                ctx.arc(pos2, height - 30 - r2, r2, 0, Math.PI * 2);
+                ctx.fillStyle = '#3b82f6';
+                ctx.fill();
+                ctx.strokeStyle = '#2563eb';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // 球2標籤
+                ctx.fillStyle = '#fff';
+                ctx.fillText('m₂=' + m2, pos2 - 20, height - 30 - r2 - 10);
+                
+                // 速度向量2
+                if (Math.abs(vel2) > 0.1) {
+                    ctx.strokeStyle = '#10b981';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(pos2, height - 30 - r2);
+                    ctx.lineTo(pos2 + vel2 * 8, height - 30 - r2);
+                    ctx.stroke();
+                }
+                
+                // 碰撞點標記
+                if (collided) {
+                    ctx.fillStyle = '#fbbf24';
+                    ctx.font = 'bold 14px Arial';
+                    ctx.fillText('碰撞！', (pos1 + pos2) / 2 - 25, height - 30 - Math.max(r1, r2) - 30);
+                }
+                
+                // 更新數據
+                const p1_before = m1 * v1_initial;
+                const p2_before = m2 * v2_initial;
+                const p_before = p1_before + p2_before;
+                
+                const p1_after = m1 * vel1;
+                const p2_after = m2 * vel2;
+                const p_after = p1_after + p2_after;
+                
+                const E_before = 0.5 * m1 * v1_initial * v1_initial;
+                const E_after = 0.5 * m1 * vel1 * vel1 + 0.5 * m2 * vel2 * vel2;
+                
+                document.getElementById('collisionP1').textContent = p_before.toFixed(2) + ' kg·m/s';
+                document.getElementById('collisionP2').textContent = p_after.toFixed(2) + ' kg·m/s';
+                document.getElementById('collisionE1').textContent = E_before.toFixed(2) + ' J';
+                document.getElementById('collisionE2').textContent = E_after.toFixed(2) + ' J';
+                document.getElementById('collisionDeltaP').textContent = Math.abs(p_after - p_before).toFixed(4) + ' kg·m/s';
+                document.getElementById('collisionDeltaE').textContent = Math.abs(E_after - E_before).toFixed(2) + ' J';
+                
+                // 重置條件
+                if (pos1 > width + 100 || pos2 > width + 100) {
+                    pos1 = 100;
+                    pos2 = 500;
+                    vel1 = v1_initial;
+                    vel2 = v2_initial;
+                    collided = false;
+                }
+                
+                collisionAnimId = requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+        
+        function pauseCollision() {
+            collisionPaused = true;
+        }
+        
+        function resetCollision() {
+            if (collisionAnimId) cancelAnimationFrame(collisionAnimId);
+            collisionPaused = false;
+            collisionStartTime = 0;
+            
+            const canvas = document.getElementById('collisionCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            updateCollisionValues();
+            document.getElementById('collisionP2').textContent = '0 kg·m/s';
+            document.getElementById('collisionE2').textContent = '0 J';
+            document.getElementById('collisionDeltaP').textContent = '0 kg·m/s';
+            document.getElementById('collisionDeltaE').textContent = '0 J';
+        }
+        
+        // 初始化
+        window.addEventListener('load', function() {
+            updateInclinedPlaneValues();
+            updateProjectileValues();
+            updateSpringValues();
+            updateCollisionValues();
+            drawProjectileStatic();
+            drawSpringStatic();
+        });
+    </script>
+</body>
+</html>

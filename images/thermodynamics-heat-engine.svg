@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 280">
+  <rect width="450" height="280" fill="#f8fafc"/>
+  
+  <!-- 热源 -->
+  <rect x="50" y="50" width="100" height="80" fill="#ef4444" rx="8"/>
+  <text x="70" y="95" font-size="16" font-weight="bold" fill="white">高温热源</text>
+  <text x="65" y="115" font-size="12" fill="white">T₁</text>
+  
+  <!-- 冷源 -->
+  <rect x="50" y="170" width="100" height="80" fill="#3b82f6" rx="8"/>
+  <text x="65" y="215" font-size="16" font-weight="bold" fill="white">低温热源</text>
+  <text x="65" y="235" font-size="12" fill="white">T₂</text>
+  
+  <!-- 热机 -->
+  <circle cx="300" cy="140" r="40" fill="#10b981"/>
+  <text x="275" y="145" font-size="14" font-weight="bold" fill="white">热机</text>
+  
+  <!-- 箭头: 热源→热机 (吸热Q₁) -->
+  <path d="M150,90 Q220,70 260,120" fill="none" stroke="#ef4444" stroke-width="3"/>
+  <polygon points="258,122 265,108 250,112" fill="#ef4444"/>
+  <text x="200" y="65" font-size="14" font-weight="bold" fill="#ef4444">Q₁</text>
+  
+  <!-- 箭头: 热机→冷源 (放热Q₂) -->
+  <path d="M260,175 Q220,210 150,210" fill="none" stroke="#3b82f6" stroke-width="3"/>
+  <polygon points="152,212 165,205 162,218" fill="#3b82f6"/>
+  <text x="200" y="230" font-size="14" font-weight="bold" fill="#3b82f6">Q₂</text>
+  
+  <!-- 箭头: 热机→做功 W -->
+  <path d="M340,140 L400,140" fill="none" stroke="#f59e0b" stroke-width="3"/>
+  <polygon points="400,140 388,135 388,145" fill="#f59e0b"/>
+  <text x="360" y="130" font-size="14" font-weight="bold" fill="#f59e0b">W</text>
+  
+  <!-- 功输出 -->
+  <rect x="380" y="130" width="60" height="20" fill="#fef3c7" rx="4"/>
+  <text x="390" y="145" font-size="12" fill="#f59e0b">机械功</text>
+  
+  <!-- 公式区域 -->
+  <rect x="280" y="30" width="160" height="90" fill="#e0e7ff" rx="8"/>
+  <text x="290" y="55" font-size="14" font-weight="bold" fill="#1e293b">热力学第一定律:</text>
+  <text x="290" y="80" font-size="13" fill="#3b82f6">ΔU = Q + W</text>
+  <text x="290" y="100" font-size="14" font-weight="bold" fill="#1e293b">热机效率:</text>
+  <text x="290" y="115" font-size="13" fill="#3b82f6">η = W/Q₁ = (Q₁-Q₂)/Q₁</text>
+  
+  <!-- 标题 -->
+  <text x="130" y="15" font-size="18" font-weight="bold" fill="#1e293b">热机工作原理</text>
+</svg>

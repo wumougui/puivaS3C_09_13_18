@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>光學 - 物理大師</title>
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- KaTeX 公式渲染 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+    <script src="../js/katex-init.js"></script>
+</head>
+<body>
+    <!-- 頭部導航 -->
+    <header class="header">
+        <nav class="nav">
+            <a href="../index.html" class="logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+                物理大師
+            </a>
+            <button class="menu-toggle" onclick="toggleMenu()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="../index.html">首頁</a></li>
+                <li><a href="mechanics.html">力學</a></li>
+                <li><a href="electromagnetism.html">電磁學</a></li>
+                <li><a href="thermodynamics.html">熱學</a></li>
+                <li><a href="optics.html">光學</a></li>
+                <li><a href="modern-physics.html">現代物理</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <a href="../index.html" class="back-btn">← 返回首頁</a>
+
+        <!-- 頁面標題 -->
+        <div class="page-header" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+            <h1>🌈 光學</h1>
+            <p>幾何光學、波動光學、光的粒子性</p>
+        </div>
+
+        <!-- 知識要點 -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">📖</span>
+                知識要點
+            </h2>
+            
+            <!-- 示意圖 -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                <div style="background: #f8fafc; border-radius: 12px; padding: 1rem; text-align: center; border: 2px solid #e0e7ff;">
+                    <h4 style="color: #3b82f6; margin-bottom: 0.75rem;">🌈 反射與折射</h4>
+                    <img src="../images/optics-reflection-refraction.svg" alt="反射與折射" style="width: 100%; max-width: 480px; height: auto; border-radius: 8px;">
+                </div>
+                <div style="background: #f8fafc; border-radius: 12px; padding: 1rem; text-align: center; border: 2px solid #fef3c7;">
+                    <h4 style="color: #f59e0b; margin-bottom: 0.75rem;">📊 雙縫干涉</h4>
+                    <img src="../images/optics-interference.svg" alt="雙縫干涉" style="width: 100%; max-width: 480px; height: auto; border-radius: 8px;">
+                </div>
+                <div style="background: #f8fafc; border-radius: 12px; padding: 1rem; text-align: center; border: 2px solid #d1fae5;">
+                    <h4 style="color: #10b981; margin-bottom: 0.75rem;">🔍 透鏡成像</h4>
+                    <img src="../images/optics-lens.svg" alt="透鏡成像" style="width: 100%; max-width: 480px; height: auto; border-radius: 8px;">
+                </div>
+            </div>
+            
+            <ul class="knowledge-list">
+                <li><strong>光的直線傳播：</strong>光沿直線傳播的條件、影的形成、日食月食、小孔成像</li>
+                <li><strong>光的反射：</strong>反射定律、平面鏡成像特點（對稱、等大、等距）</li>
+                <li><strong>光的折射：</strong>折射定律、折射率、全反射、稜鏡、色散</li>
+                <li><strong>光的波動性：</strong>干涉、衍射、偏振、光的電磁說、電磁波譜</li>
+                <li><strong>光的粒子性：</strong>光電效應、康普頓效應、光子說、波粒二象性</li>
+                <li><strong>光學儀器：</strong>透鏡成像公式、放大鏡、顯微鏡、望遠鏡</li>
+            </ul>
+        </section>
+
+        <!-- 🔬 互動實驗區 -->
+        <section class="content-section" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); border: none;">
+            <h2 class="section-title" style="background: white; border-radius: 12px; padding: 1rem;">
+                <span class="section-icon">🔬</span>
+                互動實驗室
+            </h2>
+            
+            <!-- 實驗1：折射定律實驗 -->
+            <div style="background: white; border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                <h3 style="color: #3b82f6; margin-bottom: 1rem;">🧪 實驗一：光的折射實驗</h3>
+                <p style="color: #64748b; margin-bottom: 1rem;">調整入射角，觀察折射角的變化！</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div>
+                        <label style="color: #1e293b; font-weight: 500;">入射角：<span id="incAngleValue">30</span>°</label>
+                        <input type="range" id="incAngleSlider" min="0" max="90" value="30" 
+                               style="width: 100%; margin-top: 0.5rem;"
+                               oninput="updateRefraction()">
+                    </div>
+                    <div>
+                        <label style="color: #1e293b; font-weight: 500;">折射率 n₁/n₂：<span id="refractValue">1.5</span></label>
+                        <input type="range" id="refractSlider" min="1" max="2.5" step="0.1" value="1.5" 
+                               style="width: 100%; margin-top: 0.5rem;"
+                               oninput="updateRefraction()">
+                    </div>
+                </div>
+                
+                <button onclick="updateRefraction()" style="background: #3b82f6; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 500;">
+                    ▶ 觀察折射
+                </button>
+                
+                <!-- 實驗動畫區域 -->
+                <div style="margin-top: 1.5rem; height: 300px; background: linear-gradient(to bottom, #fef3c7 0%, #fef3c7 50%, #dbeafe 50%); border-radius: 12px; position: relative; overflow: hidden;">
+                    <canvas id="refractCanvas" width="100%" height="300"></canvas>
+                </div>
+                
+                <!-- 計算結果 -->
+                <div style="margin-top: 1rem; padding: 1rem; background: #eff6ff; border-radius: 8px;">
+                    <h4 style="color: #1e40af; margin-bottom: 0.5rem;">📊 實驗數據</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem;">
+                        <div style="background: white; padding: 0.5rem; border-radius: 6px;">
+                            <span style="color: #64748b; font-size: 0.85rem;">入射角 i</span>
+                            <p style="color: #1e293b; font-weight: 600; margin: 0;"><span id="resIncAngle">30</span>°</p>
+                        </div>
+                        <div style="background: white; padding: 0.5rem; border-radius: 6px;">
+                            <span style="color: #64748b; font-size: 0.85rem;">折射角 r</span>
+                            <p style="color: #1e293b; font-weight: 600; margin: 0;"><span id="resRefAngle">0</span>°</p>
+                        </div>
+                        <div style="background: white; padding: 0.5rem; border-radius: 6px;">
+                            <span style="color: #64748b; font-size: 0.85rem;">是否全反射</span>
+                            <p style="color: #1e293b; font-weight: 600; margin: 0;" id="totalReflection">否</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 實驗2：透鏡成像實驗 -->
+            <div style="background: white; border-radius: 16px; padding: 1.5rem;">
+                <h3 style="color: #10b981; margin-bottom: 1rem;">🧪 實驗二：凸透鏡成像實驗</h3>
+                <p style="color: #64748b; margin-bottom: 1rem;">調整物距，觀察像的變化！</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div>
+                        <label style="color: #1e293b; font-weight: 500;">物距 u：<span id="objDistValue">30</span> cm</label>
+                        <input type="range" id="objDistSlider" min="5" max="60" value="30" 
+                               style="width: 100%; margin-top: 0.5rem;"
+                               oninput="updateLens()">
+                    </div>
+                    <div>
+                        <label style="color: #1e293b; font-weight: 500;">焦距 f：<span id="focalValue">15</span> cm</label>
+                        <input type="range" id="focalSlider" min="5" max="25" value="15" 
+                               style="width: 100%; margin-top: 0.5rem;"
+                               oninput="updateLens()">
+                    </div>
+                </div>
+                
+                <button onclick="updateLens()" style="background: #10b981; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 500;">
+                    ▶ 觀察成像
+                </button>
+                
+                <!-- 實驗動畫區域 -->
+                <div style="margin-top: 1.5rem; height: 250px; background: #f1f5f9; border-radius: 12px; position: relative; overflow: hidden;">
+                    <canvas id="lensCanvas" width="100%" height="250"></canvas>
+                </div>
+                
+                <!-- 計算結果 -->
+                <div style="margin-top: 1rem; padding: 1rem; background: #ecfdf5; border-radius: 8px;">
+                    <h4 style="color: #065f46; margin-bottom: 0.5rem;">📊 實驗數據</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem;">
+                        <div style="background: white; padding: 0.5rem; border-radius: 6px;">
+                            <span style="color: #64748b; font-size: 0.85rem;">像距 v</span>
+                            <p style="color: #1e293b; font-weight: 600; margin: 0;"><span id="resImgDist">0</span> cm</p>
+                        </div>
+                        <div style="background: white; padding: 0.5rem; border-radius: 6px;">
+                            <span style="color: #64748b; font-size: 0.85rem;">放大率 m</span>
+                            <p style="color: #1e293b; font-weight: 600; margin: 0;"><span id="resMag">0</span></p>
+                        </div>
+                        <div style="background: white; padding: 0.5rem; border-radius: 6px;">
+                            <span style="color: #64748b; font-size: 0.85rem;">成像特點</span>
+                            <p style="color: #1e293b; font-weight: 600; margin: 0;" id="resType">-</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 核心公式 -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">📐</span>
+                核心公式
+            </h2>
+            <div class="formula-grid">
+                <div class="formula-card" style="border-left-color: #38f9d7;">
+                    <h3>折射率</h3>
+                    <div class="formula">$n = \frac{c}{v} = \frac{\sin i}{\sin r}$</div>
+                    <p class="formula-desc">相對折射率，絕對折射率</p>
+                </div>
+
+                <div class="formula-card" style="border-left-color: #38f9d7;">
+                    <h3>折射定律</h3>
+                    <div class="formula">$n_1\sin i = n_2\sin r$</div>
+                    <p class="formula-desc">光從一種介質進入另一種介質</p>
+                </div>
+
+                <div class="formula-card" style="border-left-color: #38f9d7;">
+                    <h3>全反射</h3>
+                    <div class="formula">$\sin C = \frac{1}{n} = \frac{n_2}{n_1}$</div>
+                    <p class="formula-desc">光從光密介質射向光疏介質</p>
+                </div>
+
+                <div class="formula-card" style="border-left-color: #38f9d7;">
+                    <h3>透鏡成像公式</h3>
+                    <div class="formula">$1/u + 1/v = 1/f$</div>
+                    <div class="formula">$m = |v/u| = |h'/h|$</div>
+                    <p class="formula-desc">u為物距，v為像距，f為焦距</p>
+                </div>
+
+                <div class="formula-card" style="border-left-color: #38f9d7;">
+                    <h3>光的干涉</h3>
+                    <div class="formula">$\Delta x = \lambda L/d$</div>
+                    <p class="formula-desc">雙縫干涉條紋間距</p>
+                </div>
+
+                <div class="formula-card" style="border-left-color: #38f9d7;">
+                    <h3>光電效應</h3>
+                    <div class="formula">$E_k = h\nu - W_0$</div>
+                    <div class="formula">$\nu_0 = W_0/h$</div>
+                    <p class="formula-desc">愛因斯坦光電效應方程</p>
+                </div>
+
+                <div class="formula-card" style="border-left-color: #38f9d7;">
+                    <h3>光子能量</h3>
+                    <div class="formula">$E = h\nu = \frac{hc}{\lambda}$</div>
+                    <p class="formula-desc">h為普朗克常量</p>
+                </div>
+
+                <div class="formula-card" style="border-left-color: #38f9d7;">
+                    <h3>光的波粒二象性</h3>
+                    <div class="formula">$\lambda = \frac{h}{p} = \frac{h}{mv}$</div>
+                    <p class="formula-desc">德布羅意波長公式</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 重要定律 -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">⚖️</span>
+                重要定律
+            </h2>
+            <div class="law-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                <h3>光的反射定律</h3>
+                <p>反射光線、入射光線和法線在同一平面內；反射光線和入射光線分居法線兩側；反射角等於入射角。在反射現象中，光路是可逆的。</p>
+            </div>
+            <div class="law-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                <h3>光的折射定律</h3>
+                <p>折射光線、入射光線和法線在同一平面內；折射光線和入射光線分居法線兩側；入射角的正弦與折射角的正弦之比等於常數。光路是可逆的。</p>
+            </div>
+            <div class="law-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                <h3>光的干涉</h3>
+                <p>產生干涉的條件：頻率相同、振動方向相同、相位差恆定。雙縫干涉和薄膜干涉是典型例子。</p>
+            </div>
+            <div class="law-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                <h3>光電效應規律</h3>
+                <p>入射光頻率必須大於極限頻率才能產生光電效應；光電子最大初動能與入射光強度無關，與入射光頻率成正比。</p>
+            </div>
+        </section>
+
+        <!-- 練習題 -->
+        <section class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">✏️</span>
+                練習鞏固
+            </h2>
+            <div class="exercise-tabs">
+                <button class="tab-btn active" onclick="switchTab('basic')">基礎題</button>
+                <button class="tab-btn" onclick="switchTab('advanced')">進階題</button>
+                <button class="tab-btn" onclick="switchTab('exam')">高考真題</button>
+            </div>
+
+            <!-- 基礎題 -->
+            <div class="exercise-list active" id="basic">
+                <div class="exercise-item" id="oq1">
+                    <h4><span class="exercise-number">1</span> 關於光的折射，下列說法正確的是</h4>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="oq1" value="A">
+                            <span class="option-letter">A</span>
+                            光從光疏介質進入光密介質，折射角小於入射角
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="oq1" value="B">
+                            <span class="option-letter">B</span>
+                            光從光密介質進入光疏介質，折射角小於入射角
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="oq1" value="C">
+                            <span class="option-letter">C</span>
+                            光垂直界面入射時，折射角等於入射角
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="oq1" value="D">
+                            <span class="option-letter">D</span>
+                            折射率與光速成正比
+                        </label>
+                    </div>
+                    <div class="exercise-footer">
+                        <button class="refresh-btn" onclick="refreshThisExercise('oq1')">🔄 換一題</button>
+                        <button class="answer-btn" onclick="checkAnswer('oq1', 'A')">提交答案</button>
+                    </div>
+                    <div class="answer-area" id="answer-oq1">
+                        <strong>正確答案：A</strong><br>
+                        光從光疏進入光密，靠近法線折射；光從光密進入光疏，遠離法線折射。垂直入射時，光沿原方向傳播。
+                    </div>
+                </div>
+
+                <div class="exercise-item" id="oq2">
+                    <h4><span class="exercise-number">2</span> 關於全反射，下列說法正確的是</h4>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="oq2" value="A">
+                            <span class="option-letter">A</span>
+                            發生全反射時，光不再進入第二種介質
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="oq2" value="B">
+                            <span class="option-letter">B</span>
+                            光從光疏介質射向光密介質可能發生全反射
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="oq2" value="C">
+                            <span class="option-letter">C</span>
+                            折射角等於90°時的入射角叫臨界角
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="oq2" value="D">
+                            <span class="option-letter">D</span>
+                            全反射時光路可逆
+                        </label>
+                    </div>
+                    <div class="exercise-footer">
+                        <button class="refresh-btn" onclick="refreshThisExercise('oq2')">🔄 換一題</button>
+                        <button class="answer-btn" onclick="checkAnswer('oq2', 'A')">提交答案</button>
+                    </div>
+                    <div class="answer-area" id="answer-oq2">
+                        <strong>正確答案：A</strong><br>
+                        全反射發生在光從光密介質射向光疏介質時；光被全部反射回第一種介質。
+                    </div>
+                </div>
+
+                <div class="exercise-item" id="oq3">
+                    <h4><span class="exercise-number">3</span> 關於光電效應，下列說法正確的是</h4>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="oq3" value="A">
+                            <span class="option-letter">A</span>
+                            入射光強度越大，光電子的最大初動能越大
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="oq3" value="B">
+                            <span class="option-letter">B</span>
+                            入射光頻率大於極限頻率才能產生光電效應
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="oq3" value="C">
+                            <span class="option-letter">C</span>
+                            光電子的最大初動能與入射光頻率成正比
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="oq3" value="D">
+                            <span class="option-letter">D</span>
+                            遏止電壓與入射光強度成正比
+                        </label>
+                    </div>
+                    <div class="exercise-footer">
+                        <button class="refresh-btn" onclick="refreshThisExercise('oq3')">🔄 換一題</button>
+                        <button class="answer-btn" onclick="checkAnswer('oq3', 'B')">提交答案</button>
+                    </div>
+                    <div class="answer-area" id="answer-oq3">
+                        <strong>正確答案：B</strong><br>
+                        頻率必須大於極限頻率才能產生光電效應；最大初動能與頻率成正比，與強度無關。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 高考真題 -->
+            <div class="exercise-list" id="exam">
+                <div class="exercise-item" id="oq6">
+                    <h4><span class="exercise-number">（2024高考）</span>用單色光做雙縫干涉實驗，在光屏上形成干涉條紋。關於兩個相鄰明紋（或暗紋）的間距，下列說法正確的是</h4>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="oq6" value="A">
+                            <span class="option-letter">A</span>
+                            與雙縫間距成正比
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="oq6" value="B">
+                            <span class="option-letter">B</span>
+                            與光屏到雙縫距離成正比
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="oq6" value="C">
+                            <span class="option-letter">C</span>
+                            與光的波長成正比
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="oq6" value="D">
+                            <span class="option-letter">D</span>
+                            與光的頻率成正比
+                        </label>
+                    </div>
+                    <div class="exercise-footer">
+                        <button class="refresh-btn" onclick="refreshThisExercise('oq6')">🔄 換一題</button>
+                        <button class="answer-btn" onclick="checkAnswer('oq6', 'B')">提交答案</button>
+                    </div>
+                    <div class="answer-area" id="answer-oq6">
+                        <strong>正確答案：B</strong><br>
+                        $\Delta x = \lambda L/d$，與雙縫間距d成反比，與光屏到雙縫距離L成正比，與波長λ成正比。
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>物理大師 · 光學部分 · 祝學習進步！</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // ===== 折射實驗 =====
+        function updateRefraction() {
+            const incAngle = parseFloat(document.getElementById('incAngleSlider').value);
+            const n = parseFloat(document.getElementById('refractSlider').value);
+            
+            document.getElementById('incAngleValue').textContent = incAngle;
+            document.getElementById('refractValue').textContent = n.toFixed(1);
+            
+            // 計算折射角
+            const sinR = Math.sin(incAngle * Math.PI / 180) / n;
+            const criticalAngle = Math.asin(1/n) * 180 / Math.PI;
+            
+            let refAngle = 0;
+            let isTotalReflection = false;
+            
+            if (sinR <= 1) {
+                refAngle = Math.asin(sinR) * 180 / Math.PI;
+            } else {
+                isTotalReflection = true;
+                refAngle = criticalAngle;
+            }
+            
+            document.getElementById('resIncAngle').textContent = incAngle;
+            document.getElementById('resRefAngle').textContent = isTotalReflection ? '全反射' : refAngle.toFixed(1);
+            document.getElementById('totalReflection').textContent = isTotalReflection ? '是' : '否';
+            document.getElementById('totalReflection').style.color = isTotalReflection ? '#ef4444' : '#10b981';
+            
+            // 繪製
+            drawRefraction(incAngle, refAngle, n, isTotalReflection);
+        }
+        
+        function drawRefraction(incAngle, refAngle, n, isTotalReflection) {
+            const canvas = document.getElementById('refractCanvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width = canvas.offsetWidth;
+            const height = canvas.height;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            const centerX = width / 2;
+            const centerY = height / 2;
+            
+            // 分界線
+            ctx.strokeStyle = '#64748b';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, centerY);
+            ctx.lineTo(width, centerY);
+            ctx.stroke();
+            
+            // 上方（空氣）
+            ctx.fillStyle = '#fef3c7';
+            ctx.fillRect(0, 0, width, centerY);
+            ctx.fillStyle = '#64748b';
+            ctx.font = '12px Arial';
+            ctx.fillText('空氣 (n=1)', 20, 25);
+            
+            // 下方（介質）
+            ctx.fillStyle = '#dbeafe';
+            ctx.fillRect(0, centerY, width, centerY);
+            ctx.fillStyle = '#64748b';
+            ctx.fillText('介質 (n=' + n.toFixed(1) + ')', 20, centerY + 20);
+            
+            // 法線
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(centerX, 0);
+            ctx.lineTo(centerX, height);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // 入射光
+            const rayLength = 150;
+            const incRad = incAngle * Math.PI / 180;
+            ctx.strokeStyle = '#f59e0b';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(centerX - rayLength * Math.sin(incRad), centerY + rayLength * Math.cos(incRad));
+            ctx.lineTo(centerX, centerY);
+            ctx.stroke();
+            
+            // 箭頭
+            ctx.fillStyle = '#f59e0b';
+            ctx.beginPath();
+            const arrowX = centerX - rayLength * Math.sin(incRad);
+            const arrowY = centerY + rayLength * Math.cos(incRad);
+            ctx.moveTo(arrowX, arrowY);
+            ctx.lineTo(arrowX + 20 * Math.sin(incRad - 0.3), arrowY - 20 * Math.cos(incRad - 0.3));
+            ctx.lineTo(arrowX + 20 * Math.sin(incRad + 0.3), arrowY - 20 * Math.cos(incRad + 0.3));
+            ctx.fill();
+            
+            // 入射角弧
+            ctx.strokeStyle = '#f59e0b';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 40, Math.PI/2 - incRad, Math.PI/2);
+            ctx.stroke();
+            ctx.fillStyle = '#f59e0b';
+            ctx.font = '12px Arial';
+            ctx.fillText('i=' + incAngle + '°', centerX + 50, centerY - 20);
+            
+            // 折射光或反射光
+            if (isTotalReflection) {
+                // 全反射
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(centerX + rayLength * Math.sin(incRad), centerY - rayLength * Math.cos(incRad));
+                ctx.stroke();
+                
+                ctx.fillStyle = '#ef4444';
+                ctx.font = 'bold 14px Arial';
+                ctx.fillText('全反射', centerX + 50, centerY - 50);
+            } else {
+                // 折射光
+                const refRad = refAngle * Math.PI / 180;
+                ctx.strokeStyle = '#10b981';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(centerX + rayLength * Math.sin(refRad), centerY - rayLength * Math.cos(refRad));
+                ctx.stroke();
+                
+                // 折射角弧
+                ctx.strokeStyle = '#10b981';
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 50, Math.PI/2 - refRad, Math.PI/2);
+                ctx.stroke();
+                ctx.fillStyle = '#10b981';
+                ctx.font = '12px Arial';
+                ctx.fillText('r=' + refAngle.toFixed(1) + '°', centerX + 60, centerY - 10);
+            }
+            
+            // 入射點
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 5, 0, Math.PI * 2);
+            ctx.fillStyle = '#1e293b';
+            ctx.fill();
+        }
+        
+        // ===== 透鏡成像實驗 =====
+        function updateLens() {
+            const u = parseFloat(document.getElementById('objDistSlider').value);
+            const f = parseFloat(document.getElementById('focalSlider').value);
+            
+            document.getElementById('objDistValue').textContent = u;
+            document.getElementById('focalValue').textContent = f;
+            
+            // 計算像距 1/u + 1/v = 1/f
+            let v = 1 / (1/f - 1/u);
+            let m = Math.abs(v / u);
+            let type = '';
+            
+            if (u > 2 * f) {
+                type = '倒立縮小實像';
+            } else if (u === 2 * f) {
+                type = '倒立等大實像';
+            } else if (f < u && u < 2 * f) {
+                type = '倒立放大實像';
+            } else if (u === f) {
+                type = '不成像';
+                v = Infinity;
+                m = Infinity;
+            } else if (u < f) {
+                type = '正立放大虛像';
+            }
+            
+            document.getElementById('resImgDist').textContent = (isFinite(v) ? v.toFixed(1) : '∞');
+            document.getElementById('resMag').textContent = (isFinite(m) ? m.toFixed(2) : '∞');
+            document.getElementById('resType').textContent = type;
+            
+            drawLens(u, v, f, type);
+        }
+        
+        function drawLens(u, v, f, type) {
+            const canvas = document.getElementById('lensCanvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width = canvas.offsetWidth;
+            const height = canvas.height;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            const centerX = width / 2;
+            const centerY = height / 2;
+            const scale = 3;
+            
+            // 主光軸
+            ctx.strokeStyle = '#64748b';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(50, centerY);
+            ctx.lineTo(width - 50, centerY);
+            ctx.stroke();
+            
+            // 透鏡
+            ctx.strokeStyle = '#3b82f6';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY - 80);
+            ctx.quadraticCurveTo(centerX + 20, centerY, centerX, centerY + 80);
+            ctx.moveTo(centerX, centerY - 80);
+            ctx.quadraticCurveTo(centerX - 20, centerY, centerX, centerY + 80);
+            ctx.stroke();
+            
+            // 焦點
+            ctx.fillStyle = '#ef4444';
+            ctx.beginPath();
+            ctx.arc(centerX + f * scale, centerY, 4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(centerX - f * scale, centerY, 4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#64748b';
+            ctx.font = '12px Arial';
+            ctx.fillText('F', centerX + f * scale + 10, centerY - 10);
+            ctx.fillText("F'", centerX - f * scale - 15, centerY - 10);
+            
+            // 物體
+            const objX = centerX - u * scale;
+            ctx.fillStyle = '#f59e0b';
+            ctx.fillRect(objX - 5, centerY - 30, 10, 60);
+            ctx.fillText('物體', objX - 15, centerY - 40);
+            ctx.fillText('u=' + u + 'cm', objX - 20, centerY + 55);
+            
+            // 特殊光線成像
+            if (isFinite(v) && v !== Infinity) {
+                // 光線1：平行光軸的光線
+                ctx.strokeStyle = '#10b981';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(objX, centerY - 20);
+                ctx.lineTo(centerX, centerY - 20);
+                ctx.stroke();
+                
+                // 光線2：經過光心的光線
+                ctx.beginPath();
+                ctx.moveTo(objX, centerY + 20);
+                ctx.lineTo(centerX + v * scale * (v > 0 ? 1 : -1), centerY + 20);
+                ctx.stroke();
+                
+                ctx.setLineDash([]);
+                
+                // 像
+                const imgX = centerX + v * scale;
+                if (v > 0) {
+                    // 實像
+                    ctx.fillStyle = '#ec4899';
+                    ctx.fillRect(imgX - 5, centerY - 30 * Math.abs(v/u), 10, 60 * Math.abs(v/u));
+                    ctx.fillText('實像', imgX + 10, centerY - 40 * Math.abs(v/u));
+                } else {
+                    // 虛像
+                    ctx.strokeStyle = '#ec4899';
+                    ctx.setLineDash([3, 3]);
+                    ctx.fillRect(imgX - 5, centerY - 30 * Math.abs(v/u), 10, 60 * Math.abs(v/u));
+                    ctx.setLineDash([]);
+                    ctx.fillText('虛像', imgX + 10, centerY - 40 * Math.abs(v/u));
+                }
+                
+                ctx.fillText('v=' + v.toFixed(1) + 'cm', imgX + 10, centerY + 50);
+            }
+        }
+        
+        // 初始化
+        window.addEventListener('load', function() {
+            updateRefraction();
+            updateLens();
+        });
+    </script>
+</body>
+</html>

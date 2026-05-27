@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#f8fafc"/>
+  
+  <!-- 圆轨道 -->
+  <ellipse cx="200" cy="150" rx="120" ry="120" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="8,4"/>
+  
+  <!-- 圆心 -->
+  <circle cx="200" cy="150" r="8" fill="#1e293b"/>
+  <text x="215" y="155" font-size="12" fill="#1e293b">O</text>
+  
+  <!-- 物体 -->
+  <circle cx="200" cy="30" r="12" fill="#ef4444"/>
+  <text x="185" y="25" font-size="12" fill="#ef4444">m</text>
+  
+  <!-- 向心力箭头 (指向圆心) -->
+  <line x1="200" y1="42" x2="200" y2="130" stroke="#ef4444" stroke-width="3"/>
+  <polygon points="200,135 195,122 205,122" fill="#ef4444"/>
+  <text x="175" y="90" font-size="14" font-weight="bold" fill="#ef4444">F</text>
+  
+  <!-- 速度向量 (切向) -->
+  <line x1="190" y1="35" x2="140" y2="55" stroke="#10b981" stroke-width="3"/>
+  <polygon points="135,60 148,50 145,62" fill="#10b981"/>
+  <text x="100" y="50" font-size="14" font-weight="bold" fill="#10b981">v</text>
+  
+  <!-- 半径标注 -->
+  <line x1="200" y1="150" x2="200" y2="42" stroke="#64748b" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="215" y="100" font-size="14" fill="#64748b">r</text>
+  
+  <!-- 向心加速度 -->
+  <line x1="225" y1="45" x2="255" y2="65" stroke="#f59e0b" stroke-width="2"/>
+  <polygon points="260,68 250,62 255,72" fill="#f59e0b"/>
+  <text x="265" y="75" font-size="12" fill="#f59e0b">a</text>
+  
+  <!-- 标题 -->
+  <text x="130" y="25" font-size="18" font-weight="bold" fill="#1e293b">匀速圆周运动</text>
+  
+  <!-- 公式区域 -->
+  <rect x="10" y="240" width="180" height="50" fill="#e0e7ff" rx="8"/>
+  <text x="20" y="260" font-size="13" font-weight="bold" fill="#1e293b">向心力: F = mv²/r = mω²r</text>
+  <text x="20" y="280" font-size="13" font-weight="bold" fill="#1e293b">向心加速度: a = v²/r</text>
+</svg>

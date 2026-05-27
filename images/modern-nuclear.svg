@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 280">
+  <rect width="500" height="280" fill="#f8fafc"/>
+  
+  <!-- 裂变示意 -->
+  <!-- 重核 -->
+  <circle cx="80" cy="100" r="35" fill="#ef4444"/>
+  <text x="65" y="105" font-size="14" font-weight="bold" fill="white">U-235</text>
+  
+  <!-- 中子轰击 -->
+  <circle cx="30" cy="70" r="8" fill="#10b981"/>
+  <line x1="20" y1="70" x2="45" y2="90" stroke="#10b981" stroke-width="3"/>
+  <polygon points="45,92 50,80 40,82" fill="#10b981"/>
+  <text x="5" y="60" font-size="10" fill="#10b981">n</text>
+  
+  <!-- 裂变产物 -->
+  <circle cx="180" cy="70" r="25" fill="#3b82f6"/>
+  <text x="168" y="75" font-size="12" font-weight="bold" fill="white">Ba-141</text>
+  
+  <circle cx="180" cy="150" r="20" fill="#8b5cf6"/>
+  <text x="168" y="155" font-size="12" font-weight="bold" fill="white">Kr-92</text>
+  
+  <!-- 释放的中子 -->
+  <circle cx="130" cy="100" r="6" fill="#10b981"/>
+  <line x1="150" y1="90" x2="200" y2="60" stroke="#10b981" stroke-width="2"/>
+  <circle cx="200" cy="60" r="6" fill="#10b981"/>
+  <line x1="155" y1="115" x2="200" y2="130" stroke="#10b981" stroke-width="2"/>
+  
+  <circle cx="210" cy="130" r="6" fill="#10b981"/>
+  <line x1="165" y1="120" x2="200" y2="130" stroke="#10b981" stroke-width="2"/>
+  
+  <!-- 能量释放 -->
+  <text x="140" y="180" font-size="12" font-weight="bold" fill="#f59e0b">释放能量</text>
+  <path d="M200,180 L200,200 L300,200 L300,180" fill="none" stroke="#f59e0b" stroke-width="2"/>
+  <text x="220" y="195" font-size="10" fill="#f59e0b">E = Δmc²</text>
+  
+  <!-- 聚变示意 -->
+  <circle cx="380" cy="80" r="20" fill="#ef4444"/>
+  <text x="370" y="85" font-size="12" font-weight="bold" fill="white">H-2</text>
+  
+  <circle cx="420" cy="80" r="20" fill="#ef4444"/>
+  <text x="410" y="85" font-size="12" font-weight="bold" fill="white">H-3</text>
+  
+  <!-- 聚变箭头 -->
+  <path d="M390,95 Q400,105 410,95" fill="none" stroke="#f59e0b" stroke-width="2"/>
+  <polygon points="410,95 402,90 405,100" fill="#f59e0b"/>
+  
+  <!-- 聚变产物 -->
+  <circle cx="400" cy="160" r="25" fill="#3b82f6"/>
+  <text x="385" y="165" font-size="12" font-weight="bold" fill="white">He-4</text>
+  
+  <circle cx="360" cy="200" r="6" fill="#10b981"/>
+  <text x="345" y="205" font-size="10" fill="#10b981">n</text>
+  
+  <circle cx="440" cy="200" r="6" fill="#10b981"/>
+  <text x="450" y="205" font-size="10" fill="#10b981">n</text>
+  
+  <!-- 反应方程 -->
+  <text x="300" y="20" font-size="12" font-weight="bold" fill="#1e293b">裂变方程:</text>
+  <text x="295" y="38" font-size="11" fill="#64748b">ⁿ₁n + ²³⁵₉₂U → ¹⁴¹₅₆Ba + ⁹²₃₆Kr + 3ⁿ₁n</text>
+  
+  <text x="300" y="60" font-size="12" font-weight="bold" fill="#1e293b">聚变方程:</text>
+  <text x="295" y="78" font-size="11" fill="#64748b">²₁H + ³₁H → ⁴₂He + ²₁n</text>
+  
+  <!-- 能量对比 -->
+  <rect x="280" y="90" width="200" height="80" fill="#fef3c7" rx="8"/>
+  <text x="290" y="115" font-size="13" font-weight="bold" fill="#1e293b">核能释放:</text>
+  <text x="290" y="135" font-size="12" fill="#3b82f6">裂变: 200 MeV/铀核</text>
+  <text x="290" y="155" font-size="12" fill="#ef4444">聚变: ~17.6 MeV/氦核</text>
+  <text x="290" y="170" font-size="10" fill="#64748b">(单位质量聚变释放能量更多)</text>
+  
+  <!-- 标题 -->
+  <text x="150" y="250" font-size="16" font-weight="bold" fill="#1e293b">核裂变与核聚变</text>
+</svg>
